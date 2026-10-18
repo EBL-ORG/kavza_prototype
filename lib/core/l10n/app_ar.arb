@@ -1,0 +1,1349 @@
+{
+  "@@locale": "ar",
+  "appName": "Kavza",
+  "byYassir": "by Yassir",
+  "currency": "د.ج",
+  "launcherTitle": "نموذج أولي",
+  "launcherSubtitle": "اختر ما تريد عرضه. التطبيقان يتشاركان نفس البيانات.",
+  "clientApp": "تطبيق الزبون",
+  "clientAppHint": "Kavza داخل تطبيق Yassir",
+  "storeApp": "تطبيق Kavza Store",
+  "storeAppHint": "تطبيق صاحبات المتاجر",
+  "sideBySide": "جنبًا إلى جنب",
+  "sideBySideHint": "الزبون والمتجر معًا على شاشة واحدة",
+  "language": "اللغة",
+  "langAr": "العربية",
+  "langFr": "Français",
+  "backToLauncher": "العودة إلى القائمة",
+  "cancel": "إلغاء",
+  "statusPlaced": "تم الطلب",
+  "statusAccepted": "مقبولة",
+  "statusInPreparation": "قيد التحضير",
+  "statusReady": "جاهزة",
+  "statusPickedUp": "استلمها المندوب",
+  "statusDelivered": "تم التسليم",
+  "statusCancelledByClient": "ألغاها الزبون",
+  "statusDeclined": "رفضها المتجر",
+  "statusExpired": "انتهت المهلة",
+  "statusPaymentFailed": "فشل الدفع",
+  "statusCancelledAfterAcceptance": "أُلغيت بعد القبول",
+  "statusDeliveryFailed": "فشل التسليم",
+  "statusDisputed": "قيد المراجعة",
+  "demoPanel": "لوحة العرض",
+  "demoPanelHint": "تحلّ محلّ الإدارة و Yassir Express أثناء العرض.",
+  "demoClock": "الساعة",
+  "demoClockNow": "الوقت المحاكى: {time}",
+  "@demoClockNow": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "demoAdd15m": "+15 دقيقة",
+  "demoAdd1h": "+1 ساعة",
+  "demoAdd24h": "+24 ساعة",
+  "demoCourier": "أحداث التوصيل",
+  "demoCourierEmpty": "لا توجد طلبية بانتظار المندوب. حدّد طلبية كـ«جاهزة» في تطبيق المتجر.",
+  "demoStoreReview": "مراجعة المتاجر",
+  "demoStoreReviewEmpty": "لا يوجد متجر بانتظار المراجعة.",
+  "demoApprove": "قبول",
+  "demoReject": "رفض",
+  "demoBalance": "رصيد Yassir Cash للزبون",
+  "demoBalanceNow": "{name} · الرصيد الحالي {amount}",
+  "@demoBalanceNow": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "demoBalanceField": "الرصيد الجديد",
+  "demoBalanceSet": "تطبيق",
+  "demoReset": "إعادة ضبط البيانات",
+  "demoResetHint": "يعيد بيانات العرض والساعة إلى البداية.",
+  "demoResetConfirm": "إعادة ضبط كل البيانات؟",
+  "demoResetBody": "ستُحذف الطلبيات والتغييرات التي أُجريت أثناء العرض.",
+  "yassirHello": "أهلًا، {name}",
+  "@yassirHello": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "yassirCash": "Yassir Cash",
+  "yassirWhatToday": "ماذا يمكننا أن نفعل لك؟",
+  "yassirRide": "رحلة",
+  "yassirFood": "مطاعم",
+  "yassirMarket": "سوبرماركت",
+  "yassirNotInDemo": "هذه الخدمة ليست ضمن العرض.",
+  "yassirLocation": "موقعك الحالي",
+  "yassirParcel": "طرود",
+  "yassirSend": "إرسال",
+  "yassirTopUp": "شحن الرصيد",
+  "deliverToLabel": "التوصيل إلى",
+  "kafza": "Kavza",
+  "kafzaTileHint": "منتجات منزلية من متاجر قريبة منك",
+  "badgeNew": "جديد",
+  "badgePro": "Pro",
+  "backToYassir": "العودة إلى Yassir",
+  "notifications": "الإشعارات",
+  "help": "المساعدة",
+  "tabHome": "الرئيسية",
+  "tabSearch": "البحث",
+  "tabOrders": "طلبياتي",
+  "tabFavourites": "المفضلة",
+  "chooseAddress": "عنوان التوصيل",
+  "searchHint": "ابحث عن منتج أو متجر",
+  "waitingBanner": "بانتظار رد المتجر · بقي {time}",
+  "@waitingBanner": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "servicesTitle": "الخدمات",
+  "categoriesTitle": "الفئات",
+  "nearbyStores": "متاجر قريبة منك",
+  "newProducts": "وصل حديثًا",
+  "popularProducts": "الأكثر طلبًا",
+  "serviceCooking": "الطبخ",
+  "serviceSewing": "الخياطة",
+  "serviceCrafts": "الحرف اليدوية",
+  "categoryTraditionalFood": "أطباق تقليدية",
+  "categoryTraditionalSweets": "حلويات تقليدية",
+  "categoryCakes": "كعك وحلويات",
+  "categoryBreads": "خبز ومطلوع",
+  "categoryTraditionalClothing": "ألبسة تقليدية",
+  "categoryChildrenClothing": "ملابس الأطفال",
+  "categoryPottery": "الفخار",
+  "categoryRugs": "الزرابي",
+  "categoryBaskets": "السلال",
+  "categoryJewellery": "المجوهرات",
+  "unitPiece": "قطعة",
+  "unitKg": "كغ",
+  "unitBox": "علبة",
+  "unitPortion": "حصة",
+  "qtyPiece": "{n, plural, =1{قطعة واحدة} =2{قطعتان} few{{n} قطع} other{{n} قطعة}}",
+  "@qtyPiece": {
+    "placeholders": {
+      "n": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "qtyKg": "{n} كغ",
+  "@qtyKg": {
+    "placeholders": {
+      "n": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "qtyBox": "{n, plural, =1{علبة واحدة} =2{علبتان} few{{n} علب} other{{n} علبة}}",
+  "@qtyBox": {
+    "placeholders": {
+      "n": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "qtyPortion": "{n, plural, =1{حصة واحدة} =2{حصتان} few{{n} حصص} other{{n} حصة}}",
+  "@qtyPortion": {
+    "placeholders": {
+      "n": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "pricePerUnit": "{price} / {unit}",
+  "@pricePerUnit": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "communeDistance": "{commune} · ≈ {km} كم",
+  "@communeDistance": {
+    "placeholders": {
+      "commune": {
+        "type": "String"
+      },
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "storeDistance": "{store} · ≈ {km} كم",
+  "@storeDistance": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      },
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "notTakingOrders": "لا يستقبل طلبيات حاليًا",
+  "currentlyUnavailable": "غير متوفر حاليًا",
+  "fewLeft": "بقيت كمية قليلة",
+  "freeDelivery": "توصيل مجاني",
+  "ingredients": "المكونات",
+  "readyMadeTitle": "منتج جاهز",
+  "madeToOrderTitle": "حسب الطلب",
+  "inStock": "متوفر: {qty}",
+  "@inStock": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "outOfStock": "نفد المخزون",
+  "readyIn": "جاهز خلال {time}",
+  "@readyIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "preparedIn": "مدة التحضير {time}",
+  "@preparedIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleMin": "الحد الأدنى {qty}",
+  "@ruleMin": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleStep": "بمضاعفات {qty}",
+  "@ruleStep": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleMax": "الحد الأقصى {qty}",
+  "@ruleMax": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleLead": "اطلب قبل {time} على الأقل",
+  "@ruleLead": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleDays": "التوصيل أيام {days}",
+  "@ruleDays": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleEveryDay": "التوصيل كل يوم",
+  "ruleOptions": "اختيارات: {groups}",
+  "@ruleOptions": {
+    "placeholders": {
+      "groups": {
+        "type": "String"
+      }
+    }
+  },
+  "listSeparator": "، ",
+  "photoOf": "الصورة {index} من {total}",
+  "@photoOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "ratingSemantics": "التقييم {average} من 5، عدد التقييمات {count}",
+  "@ratingSemantics": {
+    "placeholders": {
+      "average": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "starsSemantics": "{stars} من 5 نجوم",
+  "@starsSemantics": {
+    "placeholders": {
+      "stars": {
+        "type": "int"
+      }
+    }
+  },
+  "durationMinutes": "{m} د",
+  "@durationMinutes": {
+    "placeholders": {
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "durationHours": "{h} س",
+  "@durationHours": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      }
+    }
+  },
+  "durationHoursMinutes": "{h} س {m} د",
+  "@durationHoursMinutes": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "durationDays": "{n, plural, =1{يوم واحد} =2{يومان} few{{n} أيام} other{{n} يومًا}}",
+  "@durationDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "orderNow": "اطلب الآن",
+  "orderMadeForMe": "اطلب تحضيره لي",
+  "outOfStockHint": "نفد المخزون، ولا يُصنع هذا المنتج حسب الطلب.",
+  "productPausedHint": "أوقف المتجر هذا المنتج مؤقتًا.",
+  "share": "مشاركة",
+  "linkCopied": "تم نسخ الرابط",
+  "addFavourite": "إضافة إلى المفضلة",
+  "removeFavourite": "إزالة من المفضلة",
+  "reliability": "{percent} من الطلبيات سُلّمت",
+  "@reliability": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "serviceRating": "{service}: ‎{stars}/5",
+  "@serviceRating": {
+    "placeholders": {
+      "service": {
+        "type": "String"
+      },
+      "stars": {
+        "type": "String"
+      }
+    }
+  },
+  "pausedStoreHint": "ستظهر منتجاته عندما يستأنف نشاطه.",
+  "noProducts": "لا توجد منتجات حاليًا",
+  "noProductsHint": "عد لاحقًا لرؤية الجديد.",
+  "noReviews": "لا توجد تقييمات بعد",
+  "noReviewsHint": "تظهر التقييمات بعد أولى الطلبيات المسلّمة.",
+  "tabProductsCount": "المنتجات ({n})",
+  "@tabProductsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tabStoresCount": "المتاجر ({n})",
+  "@tabStoresCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tabReviewsCount": "التقييمات ({n})",
+  "@tabReviewsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "noResults": "لا توجد نتائج",
+  "noResultsHint": "جرّب كلمة أخرى أو أزل بعض الفلاتر.",
+  "clearFilters": "إزالة الفلاتر",
+  "clearSearch": "مسح البحث",
+  "removeFilter": "إزالة",
+  "recentSearches": "عمليات البحث الأخيرة",
+  "clear": "مسح",
+  "filters": "الفلاتر",
+  "sortBy": "الترتيب",
+  "sortClosest": "الأقرب",
+  "sortRating": "الأعلى تقييمًا",
+  "sortPrice": "الأقل سعرًا",
+  "sortPrepTime": "الأسرع تحضيرًا",
+  "filterWilaya": "الولاية",
+  "all": "الكل",
+  "filterAvailability": "التوفر",
+  "filterAvailableNow": "متوفر الآن",
+  "filterMadeToOrder": "يُصنع حسب الطلب",
+  "filterMinRating": "أدنى تقييم",
+  "filterPrice": "السعر",
+  "priceRange": "{min} – {max}",
+  "@priceRange": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "reset": "إعادة ضبط",
+  "showResults": "عرض النتائج",
+  "emptyFavourites": "لا شيء في المفضلة بعد",
+  "emptyFavouritesHint": "اضغط على القلب في صفحة منتج أو متجر لتجده هنا.",
+  "browse": "تصفّح Kavza",
+  "labelValue": "{label}: {value}",
+  "@labelValue": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "decrease": "إنقاص",
+  "increase": "زيادة",
+  "contactPhone": "أرقام الهاتف غير مسموح بها.",
+  "contactEmail": "عناوين البريد الإلكتروني غير مسموح بها.",
+  "contactLink": "الروابط غير مسموح بها.",
+  "contactHandle": "أسماء الحسابات (@) غير مسموح بها.",
+  "contactWord": "ذكر واتساب أو إنستغرام أو تطبيقات أخرى غير مسموح به.",
+  "contactWhy": "لحمايتك، يتم كل شيء عبر Kavza.",
+  "errorUnavailable": "لا يمكن طلب هذا المنتج حاليًا.",
+  "errorWaitingOrder": "لديك طلبية بانتظار رد متجر.",
+  "errorOutOfStock": "الكمية المتوفرة لا تكفي. غيّر الكمية.",
+  "errorInvalidQty": "هذه الكمية غير مسموح بها.",
+  "errorMissingOption": "اختر الخيارات المطلوبة.",
+  "errorInvalidOption": "أحد الخيارات لم يعد متوفرًا.",
+  "errorInvalidDate": "هذا التاريخ لم يعد متاحًا. اختر تاريخًا آخر.",
+  "errorLowBalance": "رصيد Yassir Cash غير كافٍ.",
+  "errorNotAllowed": "لم يعد هذا الإجراء ممكنًا.",
+  "timeLeft": "بقي {time}",
+  "@timeLeft": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "optionsLine": "الخيارات",
+  "deliveryFeeLine": "رسوم التوصيل",
+  "totalLine": "المجموع",
+  "itemsLine": "{qty} × {price}",
+  "@itemsLine": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "itemsTotal": "المنتجات",
+  "quantity": "الكمية",
+  "required": "إلزامي",
+  "optional": "اختياري",
+  "deliveryDate": "تاريخ التوصيل",
+  "chooseDate": "اختر تاريخًا",
+  "etaReadyMade": "يصلك بعد حوالي {time} من قبول المتجر.",
+  "@etaReadyMade": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "etaMadeToOrder": "يصلك في التاريخ الذي تختاره.",
+  "toContinue": "للمتابعة، اختر: {items}",
+  "@toContinue": {
+    "placeholders": {
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "continueTotal": "متابعة · {total}",
+  "@continueTotal": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "summaryTitle": "ملخص الطلبية",
+  "summaryMoneyNote": "لن يُقتطع أي مبلغ الآن. يُقتطع المبلغ من Yassir Cash عندما يقبل المتجر الطلبية.",
+  "placeOrder": "تأكيد الطلبية",
+  "missingAmount": "ينقصك {amount}",
+  "@missingAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rechargeCcp": "الشحن عبر CCP",
+  "waitingTitle": "لديك طلبية بانتظار الرد",
+  "waitingBody": "يمكن أن تنتظر طلبية واحدة فقط رد المتجر في نفس الوقت.",
+  "keepIt": "الإبقاء عليها",
+  "cancelAndPlace": "إلغاؤها وتأكيد هذه",
+  "rechargeAmount": "مبلغ الشحن",
+  "rechargeMockNote": "صفحة Yassir تجريبية: لا يتم أي دفع حقيقي.",
+  "rechargeConfirm": "شحن {amount}",
+  "@rechargeConfirm": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rechargeDone": "تمت إضافة {amount}",
+  "@rechargeDone": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "newBalance": "رصيدك الجديد: {amount}",
+  "@newBalance": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "backToOrder": "العودة إلى الطلبية",
+  "placedTitle": "تم إرسال طلبيتك",
+  "orderNumber": "طلبية {id}",
+  "@orderNumber": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "placedDeadline": "أمام {store} مهلة {window} للرد (حتى {time}).",
+  "@placedDeadline": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      },
+      "window": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "placedMoneyNote": "لم يُقتطع أي مبلغ بعد. سيُقتطع المبلغ من Yassir Cash عندما يقبل المتجر. إذا لم يكفِ رصيدك حينها، تُلغى الطلبية.",
+  "trackOrder": "تتبع الطلبية",
+  "backToKafza": "العودة إلى Kavza",
+  "moneyInWallet": "{total} لا يزال في Yassir Cash. يُقتطع عند قبول المتجر.",
+  "@moneyInWallet": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "moneyNothingTaken": "لم يُقتطع أي مبلغ من Yassir Cash.",
+  "moneyHeld": "دُفع {total}، تحتفظ به Kavza حتى التسليم.",
+  "@moneyHeld": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "moneyPaid": "دُفع {total}.",
+  "@moneyPaid": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "moneyRefunded": "استُرجع {amount} إلى Yassir Cash.",
+  "@moneyRefunded": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "moneyUnderReview": "دُفع {total}، قيد المراجعة لدى Kavza.",
+  "@moneyUnderReview": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "ordersCurrent": "الحالية ({n})",
+  "@ordersCurrent": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ordersPast": "السابقة ({n})",
+  "@ordersPast": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "noCurrentOrders": "لا توجد طلبيات جارية",
+  "noPastOrders": "لا توجد طلبيات سابقة",
+  "noOrdersHint": "تظهر طلبياتك هنا بعد تأكيدها.",
+  "waitingForStore": "بانتظار رد المتجر حتى {time}. لم يُقتطع أي مبلغ بعد.",
+  "@waitingForStore": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelOrder": "إلغاء الطلبية",
+  "cancelOrderTitle": "إلغاء هذه الطلبية؟",
+  "cancelOrderBody": "لم يُقتطع أي مبلغ من Yassir Cash، وسيتم إعلام المتجر.",
+  "orderCancelled": "أُلغيت الطلبية.",
+  "courierTitle": "مندوب Yassir Express في الطريق",
+  "courierBody": "يوصل طلبيتك إلى {label}.",
+  "@courierBody": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "orderStatusTitle": "حالة الطلبية",
+  "orderDetailsTitle": "التفاصيل",
+  "deliveryOn": "التوصيل يوم {date}",
+  "@deliveryOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "yourReview": "تقييمك",
+  "leaveReview": "اترك تقييمًا",
+  "reviewComment": "تعليق (اختياري)",
+  "sendReview": "إرسال التقييم",
+  "reviewThanks": "شكرًا على تقييمك.",
+  "reportProblem": "الإبلاغ عن مشكلة",
+  "reportUntil": "يمكنك الإبلاغ حتى {time}.",
+  "@reportUntil": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "problemReason": "ما المشكلة؟",
+  "problemDamaged": "وصل المنتج تالفًا",
+  "problemWrongItem": "منتج غير الذي طلبته",
+  "problemMissingItems": "ينقص جزء من الطلبية",
+  "problemNotAsDescribed": "لا يطابق الوصف",
+  "problemOther": "مشكلة أخرى",
+  "problemDetails": "صف المشكلة",
+  "problemPhotos": "الصور (غير متاحة في النموذج)",
+  "sendReport": "إرسال البلاغ",
+  "problemSent": "تم إرسال البلاغ. ستراجعه Kavza.",
+  "faqTitle": "أسئلة شائعة",
+  "faqPaymentQ": "متى يُقتطع المبلغ؟",
+  "faqPaymentA": "لا شيء عند تأكيد الطلبية. يُقتطع المبلغ كاملًا من Yassir Cash عندما يقبل المتجر، وتحتفظ به Kavza حتى التسليم. إذا لم يكفِ رصيدك عند القبول، تُلغى الطلبية دون اقتطاع أي شيء.",
+  "faqCancelQ": "هل يمكنني إلغاء طلبية؟",
+  "faqCancelA": "نعم، طالما لم يقبلها المتجر بعد. إذا ألغاها المتجر بعد القبول، يُسترجع المبلغ كاملًا إلى Yassir Cash.",
+  "faqDeliveryQ": "من يوصل طلبيتي؟",
+  "faqDeliveryA": "يستلمها مندوب Yassir Express من المتجر عندما تصبح جاهزة ويوصلها إلى عنوانك. يمكنك تتبعها في «طلبياتي».",
+  "faqMessageQ": "لماذا لا يمكنني مراسلة المتجر؟",
+  "faqMessageA": "لحماية الطرفين، يتم كل شيء عبر Kavza: الدفع والتوصيل والمساعدة. لهذا تُمنع أرقام الهاتف والروابط وأسماء الحسابات في كل النصوص. لأي مشكلة، تواصل مع دعم Kavza.",
+  "contactSupport": "تواصل مع دعم Kavza",
+  "contactSupportHint": "يرد الفريق خلال 24 ساعة.",
+  "supportAbout": "الموضوع",
+  "supportNoOrder": "ليس بخصوص طلبية",
+  "supportMessage": "رسالتك",
+  "supportSend": "إرسال",
+  "supportSent": "تم إرسال رسالتك. يرد الدعم خلال 24 ساعة.",
+  "photoTaken": "تم التقاط الصورة",
+  "cameraCardHint": "ضعي البطاقة داخل الإطار",
+  "cameraFaceHint": "ضعي وجهك داخل الدائرة",
+  "retake": "إعادة الالتقاط",
+  "takePhoto": "التقاط صورة",
+  "proTitle": "Kavza Pro",
+  "proBody": "بالخطة المجانية تبيعين في فئة واحدة. مع Pro تبيعين في كل الفئات.",
+  "planFree": "مجاني",
+  "planFreePrice": "0",
+  "planFreeLine": "فئة واحدة",
+  "perMonth": "{price} / شهر",
+  "@perMonth": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "planProLine1": "كل الفئات",
+  "planProLine2": "شارة Pro على متجرك",
+  "proActive": "Kavza Pro مفعّل في متجرك.",
+  "proShort": "يُدفع Pro من أرباحك. رصيدك {balance} لا يكفي بعد.",
+  "@proShort": {
+    "placeholders": {
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "proFromBalance": "يُقتطع من رصيد أرباحك ({balance}).",
+  "@proFromBalance": {
+    "placeholders": {
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "getPro": "الاشتراك في Kavza Pro",
+  "welcomeTitle": "بيعي ما تصنعينه في البيت",
+  "welcomeBody": "تصلك طلبيات زبائن Yassir. تتكفّل Kavza بالدفع والتوصيل.",
+  "getStarted": "ابدئي الآن",
+  "haveStore": "لديّ متجر",
+  "stepPhone": "الهاتف",
+  "stepCode": "الرمز",
+  "stepCard": "البطاقة",
+  "stepSelfie": "صورة شخصية",
+  "stepOf": "الخطوة {n} من {total}: {label}",
+  "@stepOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneTitle": "رقم هاتفك",
+  "phoneBody": "سنرسل لك رمزًا من 6 أرقام عبر رسالة قصيرة.",
+  "phoneLabel": "رقم الهاتف المحمول",
+  "phoneHelper": "لا يظهر للزبائن أبدًا.",
+  "phoneInvalid": "أدخلي رقمًا محمولًا: 5 أو 6 أو 7 ثم 8 أرقام.",
+  "sendCode": "إرسال الرمز",
+  "otpTitle": "أدخلي الرمز",
+  "otpBody": "أُرسل إلى {phone}.",
+  "@otpBody": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "otpDemo": "في النموذج، الرمز دائمًا {code}.",
+  "@otpDemo": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "otpLabel": "رمز التحقق من 6 أرقام",
+  "otpWrong": "الرمز غير صحيح. تحققي من الرسالة وأعيدي المحاولة.",
+  "resendIn": "إعادة الإرسال بعد {time}",
+  "@resendIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "resendCode": "إعادة إرسال الرمز",
+  "codeSent": "تم إرسال رمز جديد.",
+  "newStoreName": "متجري",
+  "cardFrontTitle": "بطاقة المقاول الذاتي: الوجه",
+  "cardBackTitle": "بطاقة المقاول الذاتي: الظهر",
+  "cardPhotoBody": "صوّري البطاقة الأصلية الآن. تأكدي أن الكتابة مقروءة.",
+  "cardDetailsTitle": "رقم البطاقة ونشاطك",
+  "cardDetailsBody": "كما هو مكتوب على بطاقة المقاول الذاتي.",
+  "cardNumber": "رقم البطاقة",
+  "cardNumberHelper": "تراه Kavza فقط، للتحقق.",
+  "cardNumberInvalid": "الرقم قصير جدًا: 8 أرقام على الأقل.",
+  "activity": "نشاطك",
+  "selfieTitle": "صورة شخصية مباشرة",
+  "selfieBody": "نقارنها بصورة البطاقة. صور المعرض غير مقبولة.",
+  "sendForReview": "إرسال للتحقق",
+  "continueLabel": "متابعة",
+  "pendingTitle": "نتحقق من وثائقك",
+  "pendingBody": "يتم التحقق عادة خلال 24 ساعة. ستصلك رسالة هنا.",
+  "pendingCanDo": "يمكنك الآن",
+  "pendingCanProfile": "تجهيز ملف متجرك: الاسم والوصف والصورة",
+  "pendingCanProducts": "إضافة منتجاتك، تُحفظ كمسودات",
+  "pendingLocked": "بعد الموافقة",
+  "pendingLockedPublish": "نشر منتجاتك للزبائن",
+  "pendingLockedOrders": "استقبال الطلبيات",
+  "rejectedTitle": "لم نتمكن من التحقق من متجرك",
+  "rejectedBody": "صوّري بطاقتك من جديد والتقطي صورة شخصية جديدة، ثم أعيدي الإرسال.",
+  "rejectedReason": "السبب: صورة البطاقة غير مقروءة.",
+  "resubmit": "إعادة الإرسال",
+  "addProduct": "إضافة منتج",
+  "setUpStore": "تجهيز متجري",
+  "profileSaved": "تم حفظ ملف المتجر.",
+  "pauseTitle": "إيقاف متجرك مؤقتًا؟",
+  "pauseBody": "لن يرى الزبائن منتجاتك ولن تصلك طلبيات جديدة. الطلبيات المقبولة تستمر كالمعتاد.",
+  "pauseConfirm": "إيقاف مؤقت",
+  "storePaused": "متجرك متوقف مؤقتًا.",
+  "storeResumed": "متجرك يستقبل الطلبيات من جديد.",
+  "storeProfile": "ملف المتجر",
+  "storePicture": "صورة المتجر",
+  "picturePhoto": "صورة",
+  "pictureLogo": "شعار",
+  "pictureNone": "بدون",
+  "storeName": "اسم المتجر",
+  "storeDescription": "الوصف",
+  "storeDescriptionHelper": "ما تصنعينه وما يميّزه. بدون أرقام هاتف أو روابط.",
+  "storeLocation": "المنطقة",
+  "wilaya": "الولاية",
+  "commune": "البلدية",
+  "communeHelper": "يرى الزبائن البلدية فقط، مع مسافة تقريبية.",
+  "pickupTitle": "مكان الاستلام",
+  "pickupBody": "يستلم مندوب Yassir Express طلبياتك من هنا. اسحبي الدبوس إلى بابك.",
+  "pickupMapSemantics": "خريطة مكان الاستلام. المسي أو اسحبي لتحريك الدبوس.",
+  "neverShownToClients": "لا يظهر للزبائن أبدًا.",
+  "payoutTitle": "حساب استلام الأرباح",
+  "ccpLabel": "حساب CCP / BaridiMob (الرقم + المفتاح)",
+  "ccpHelper": "تُرسل أرباحك إلى هذا الحساب. تراه Kavza فقط.",
+  "ccpInvalid": "بين 10 و20 رقمًا.",
+  "pauseStore": "إيقاف متجري مؤقتًا",
+  "pauseStoreHint": "تختفي منتجاتك من Kavza حتى تعيدي التشغيل.",
+  "save": "حفظ",
+  "productsPendingBanner": "متجرك قيد التحقق. تبقى المنتجات الجديدة مسودات حتى الموافقة.",
+  "productsPausedBanner": "متجرك متوقف مؤقتًا: الزبائن لا يرون منتجاتك.",
+  "tabProducts": "المنتجات",
+  "tabEarnings": "الأرباح",
+  "tabMore": "المزيد",
+  "noStoreProducts": "لا توجد منتجات بعد",
+  "noStoreProductsHint": "أضيفي أول منتج: جاهز للبيع، حسب الطلب، أو الاثنين.",
+  "productLive": "معروض",
+  "productPaused": "متوقف",
+  "productDraft": "مسودة",
+  "lowStock": "مخزون منخفض · {n}",
+  "@lowStock": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "stockCount": "المخزون: {n}",
+  "@stockCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "productPausedDone": "المنتج متوقف. لم يعد ظاهرًا للزبائن.",
+  "productLiveDone": "المنتج معروض من جديد.",
+  "publishLocked": "يمكنك النشر بعد موافقة Kavza على متجرك.",
+  "untitledProduct": "منتج بدون عنوان",
+  "productActions": "إجراءات المنتج",
+  "edit": "تعديل",
+  "pause": "إيقاف مؤقت",
+  "resume": "إعادة العرض",
+  "editStock": "تعديل المخزون",
+  "delete": "حذف",
+  "deleteTitle": "حذف هذا المنتج؟",
+  "deleteBody": "يختفي من متجرك نهائيًا. الطلبيات السابقة تبقى في السجل.",
+  "deleteBlockedTitle": "لا يمكن حذف هذا المنتج الآن",
+  "deleteBlockedBody": "توجد طلبية جارية لهذا المنتج. أوقفيه مؤقتًا بدل حذفه، واحذفيه بعد انتهاء الطلبية.",
+  "ok": "حسنًا",
+  "productDeleted": "تم حذف المنتج.",
+  "stockReserved": "{qty} محجوزة لطلبيات تنتظر ردّك.",
+  "@stockReserved": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "stockAlertAt": "تنبيه المخزون المنخفض عند {qty}.",
+  "@stockAlertAt": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "stockSaved": "تم تحديث المخزون.",
+  "draftSaved": "تم حفظ المسودة.",
+  "draftSavedAt": "حُفظت المسودة على {time}",
+  "@draftSavedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "publishedDone": "تم النشر. يراه الزبائن الآن.",
+  "changesSaved": "تم حفظ التعديلات.",
+  "editorCategory": "الفئة",
+  "editorDetails": "الصور والتفاصيل",
+  "editorModes": "طريقة البيع",
+  "editorRules": "قواعد الطلب المسبق",
+  "editorOptions": "الخيارات",
+  "editorPreview": "المعاينة",
+  "newProduct": "منتج جديد",
+  "editProduct": "تعديل المنتج",
+  "closeEditor": "إغلاق وحفظ المسودة",
+  "previewHint": "هكذا سيرى الزبائن منتجك.",
+  "next": "التالي",
+  "saveChanges": "حفظ التعديلات",
+  "publish": "نشر",
+  "saveDraft": "حفظ كمسودة",
+  "freePlanCategory": "الخطة المجانية: تبيعين في «{category}». Kavza Pro يفتح كل الفئات.",
+  "@freePlanCategory": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseCategory": "اختاري فئة.",
+  "photos": "الصور",
+  "removePhoto": "حذف الصورة",
+  "addPhoto": "إضافة صورة",
+  "addPhotoShort": "إضافة",
+  "photosRequired": "أضيفي صورة واحدة على الأقل.",
+  "productTitle": "العنوان",
+  "titleRequired": "أضيفي عنوانًا.",
+  "nameRequired": "أضيفي اسمًا.",
+  "productDescription": "الوصف",
+  "ingredientsHelper": "مهم لمن لديهم حساسية.",
+  "sellBy": "يُباع بـ",
+  "freeDeliveryHint": "يدفع الزبون صفرًا للتوصيل، وتُخصم رسومه من أرباحك.",
+  "readyMadeHint": "مصنوع مسبقًا وجاهز للتوصيل.",
+  "madeToOrderHint": "تصنعينه بعد كل طلبية. تحدّدين القواعد في الخطوة التالية.",
+  "pricePer": "السعر لكل {unit}",
+  "@pricePer": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "priceRequired": "أدخلي سعرًا.",
+  "stockLabel": "المخزون",
+  "lowStockAlertLabel": "تنبيه المخزون المنخفض عند",
+  "readyInLabel": "جاهز خلال",
+  "modeRequired": "اختاري طريقة بيع واحدة على الأقل.",
+  "suggestedByKafza": "مقترح من Kavza. غيّري ما لا يناسبك.",
+  "minPerOrder": "الحد الأدنى للطلبية",
+  "orderBy": "بزيادة",
+  "setMaximum": "حدّ أقصى للطلبية",
+  "maxPerOrder": "الحد الأقصى",
+  "leadTimeLabel": "يُطلب قبل",
+  "prepTimeLabel": "مدة التحضير",
+  "prepLongerThanLead": "لا يمكن أن يتجاوز التحضير المهلة التي تطلبينها.",
+  "deliveryDays": "أيام التوصيل",
+  "daysRequired": "اختاري يومًا واحدًا على الأقل.",
+  "optionsIntro": "تسمح الخيارات للزبون باختيار الحجم أو النكهة أو اللون أو كتابة نص قصير. تُضاف الأسعار الإضافية إلى المجموع.",
+  "noOptions": "لا توجد خيارات. هذا ممكن: يطلب الزبون الكمية فقط.",
+  "addOptionGroup": "إضافة مجموعة خيارات",
+  "editOptionGroup": "تعديل مجموعة الخيارات",
+  "maxChars": "{n} حرفًا كحد أقصى",
+  "@maxChars": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "optionSingle": "اختيار واحد",
+  "optionMultiple": "عدة اختيارات",
+  "optionColour": "لون",
+  "optionText": "نص قصير",
+  "choiceName": "الاختيار",
+  "removeChoice": "حذف الاختيار",
+  "extraPrice": "سعر إضافي (اختياري)",
+  "perOrder": "لكل طلبية",
+  "perUnitLabel": "لكل {unit}",
+  "@perUnitLabel": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "swatchN": "اللون {n}",
+  "@swatchN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "optionGroupName": "اسم المجموعة",
+  "optionGroupNameHelper": "مثلًا: الحجم، النكهة، الاسم على الكعكة",
+  "optionTypeLabel": "النوع",
+  "optionRequired": "إلزامي",
+  "optionRequiredHint": "لا يمكن للزبون المتابعة دون اختيار.",
+  "textOptionHint": "يكتب الزبون نصًا قصيرًا، مثل اسم على الكعكة. أرقام الهاتف والروابط ممنوعة.",
+  "maxLengthLabel": "الطول الأقصى",
+  "choices": "الاختيارات",
+  "addChoice": "إضافة اختيار",
+  "storePending": "قيد التحقق",
+  "storeRejected": "مرفوض",
+  "logOut": "تسجيل الخروج",
+  "storeApproved": "تمت الموافقة على متجرك. يمكنك الآن نشر منتجاتك.",
+  "storeRejectedNotice": "لم نتمكن من التحقق من متجرك. افتحي الرئيسية لمعرفة السبب.",
+  "noticeNewOrder": "طلبية جديدة",
+  "noticeLowStock": "المخزون منخفض",
+  "noticeReview": "تقييم جديد",
+  "noticeStrike": "حصلتِ على إنذار",
+  "noticeSuspended": "تم تعليق متجرك",
+  "noticeSuspendedBody": "منتجاتك مخفية لمدة 7 أيام.",
+  "clientIn": "زبون في {commune} · {detail}",
+  "@clientIn": {
+    "placeholders": {
+      "commune": {
+        "type": "String"
+      },
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "commissionLine": "عمولة Kavza",
+  "deliveryDeductedLine": "التوصيل المجاني (يُخصم منك)",
+  "netEarnings": "صافي أرباحك",
+  "ordersNew": "جديدة ({n})",
+  "@ordersNew": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ordersInProgress": "قيد التنفيذ ({n})",
+  "@ordersInProgress": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ordersHistory": "السجل",
+  "noNewOrders": "لا توجد طلبيات جديدة",
+  "noNewOrdersHint": "تظهر هنا الطلبيات التي تنتظر ردك.",
+  "noOrdersInProgress": "لا توجد طلبيات قيد التنفيذ",
+  "noOrdersInProgressHint": "تبقى الطلبيات المقبولة هنا حتى تسليمها.",
+  "noOrderHistory": "السجل فارغ",
+  "noOrderHistoryHint": "تظهر هنا الطلبيات المسلّمة والمرفوضة والملغاة.",
+  "storeMoneyPlaced": "{total} ما زال في Yassir Cash الخاص بالزبون. يُقتطع عند قبولك.",
+  "@storeMoneyPlaced": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "storeMoneyHeld": "تم تأكيد الطلبية، الدفع مضمون. تحتفظ Kavza بمبلغ {total} حتى التسليم.",
+  "@storeMoneyHeld": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "storeMoneyPaid": "تم التسليم. أُضيف {amount} إلى أرباحك.",
+  "@storeMoneyPaid": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "storeMoneyDisputed": "أبلغ الزبون عن مشكلة. Kavza تراجعها.",
+  "storePaymentFailed": "فشل الدفع: رصيد الزبون غير كافٍ. عاد المخزون، ولا إنذار.",
+  "storeMoneyDeclined": "رفضتِ الطلبية. لم يُقتطع شيء من الزبون، ولا إنذار.",
+  "storeMoneyExpired": "انتهت مهلة هذه الطلبية. لم يُقتطع شيء، ولا إنذار.",
+  "storeMoneyCancelledByClient": "ألغى الزبون الطلبية قبل ردك. لم يُقتطع شيء.",
+  "storeMoneyCancelled": "أُلغيت. استرجع الزبون {total} كاملًا، وحصلتِ على إنذار.",
+  "@storeMoneyCancelled": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "storeDeliveryFailedPaid": "فشل التوصيل. المنتج حسب الطلب، لذا تحصلين على {amount}.",
+  "@storeDeliveryFailedPaid": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "storeDeliveryFailedRefund": "فشل التوصيل. عاد المنتج إلى مخزونك، واسترجع الزبون ماله دون رسوم التوصيل.",
+  "orderCancelledStrike": "أُلغيت الطلبية واسترجع الزبون ماله.",
+  "orderDeclined": "رُفضت الطلبية.",
+  "markReadyTitle": "هل الطلبية جاهزة؟",
+  "markReadyBody": "سيأتي مندوب Yassir Express لاستلامها من نقطة الاستلام الخاصة بك.",
+  "ready": "جاهزة",
+  "accept": "قبول",
+  "decline": "رفض",
+  "securingPayment": "جارٍ تأمين الدفع…",
+  "startPreparation": "بدء التحضير",
+  "markReady": "جاهزة للاستلام",
+  "answerBefore": "ردّي قبل {time}، وإلا تنتهي مهلتها دون إنذار.",
+  "@answerBefore": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "waitingCourier": "في انتظار المندوب",
+  "waitingCourierBody": "طُلب مندوب Yassir Express. جهّزي الطلبية عند نقطة الاستلام.",
+  "courierOnTheWay": "في الطريق مع Yassir Express",
+  "courierOnTheWayBody": "تُضاف أرباحك عند التسليم.",
+  "deliveredToCommune": "التوصيل إلى {commune}",
+  "@deliveredToCommune": {
+    "placeholders": {
+      "commune": {
+        "type": "String"
+      }
+    }
+  },
+  "yourEarnings": "أرباحك",
+  "clientPays": "يدفع الزبون {total}.",
+  "@clientPays": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelOrderStoreTitle": "إلغاء طلبية مقبولة",
+  "declineTitle": "رفض الطلبية",
+  "cancelStrikeWarning": "يسترجع الزبون ماله كاملًا وتحصلين على إنذار ({n} من {max}). عند {max} إنذارات يُعلَّق متجرك 7 أيام.",
+  "@cancelStrikeWarning": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "declineBody": "لا يُقتطع شيء من الزبون ويعود المخزون. لا إنذار.",
+  "reasonTitle": "السبب",
+  "reasonOutOfStock": "نفد المنتج",
+  "reasonNoTime": "لا أستطيع تحضيرها في الوقت",
+  "reasonDate": "التاريخ غير مناسب",
+  "reasonOther": "سبب آخر",
+  "reasonDetails": "اشرحي السبب",
+  "reasonDetailsHelper": "يراه الزبون. دون رقم أو رابط.",
+  "cancelWithStrike": "إلغاء مع إنذار",
+  "storeOpen": "مفتوح",
+  "storeSuspended": "معلّق",
+  "suspendedBanner": "متجرك معلّق حتى {date}: منتجاتك مخفية ولا تصلك طلبيات جديدة. واصلي الطلبيات المقبولة كالمعتاد.",
+  "@suspendedBanner": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "strikeStanding": "{n} من {max} إنذارات قبل تعليق لمدة 7 أيام",
+  "@strikeStanding": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "availableBalance": "الرصيد المتاح",
+  "todayOrders": "طلبيات اليوم",
+  "needsAnswer": "تنتظر ردك ({n})",
+  "@needsAnswer": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "needsAnswerEmpty": "لا شيء ينتظر. تظهر الطلبيات الجديدة هنا.",
+  "lowStockTitle": "مخزون منخفض",
+  "onHold": "قيد الانتظار: {amount}",
+  "@onHold": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "onHoldHint": "أرباح الطلبيات المقبولة، تُضاف عند التسليم.",
+  "addCcpFirst": "أضيفي حساب CCP في ملف المتجر لسحب أرباحك.",
+  "withdrawMinimum": "الحد الأدنى للسحب {amount}.",
+  "@withdrawMinimum": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "withdrawMax": "لا يمكنك سحب أكثر من {amount}.",
+  "@withdrawMax": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "withdrawTo": "إلى حساب CCP {account}",
+  "@withdrawTo": {
+    "placeholders": {
+      "account": {
+        "type": "String"
+      }
+    }
+  },
+  "perOrderTitle": "حسب الطلبية",
+  "noEarningsYet": "تظهر الأرباح هنا بعد أول تسليم.",
+  "withdrawalsTitle": "عمليات السحب",
+  "noWithdrawals": "لا توجد عمليات سحب بعد.",
+  "withdrawalRequested": "قيد المعالجة",
+  "withdrawalSent": "تم الإرسال",
+  "withdrawalFailed": "فشل",
+  "withdraw": "سحب",
+  "withdrawAmount": "المبلغ",
+  "availableAmount": "متاح: {amount}",
+  "@availableAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "withdrawConfirm": "سحب {amount}",
+  "@withdrawConfirm": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "withdrawDone": "تم طلب سحب {amount}.",
+  "@withdrawDone": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reportReviewTitle": "الإبلاغ عن هذا التقييم؟",
+  "reportReviewBody": "ستراجعه Kavza. يبقى ظاهرًا حتى قرارها.",
+  "reportReview": "إبلاغ",
+  "reviewReported": "تم الإبلاغ عن التقييم.",
+  "reviewReportedBadge": "مُبلَّغ عنه",
+  "reviewsTitle": "التقييمات",
+  "reviewCount": "{n, plural, =1{تقييم واحد} =2{تقييمان} few{{n} تقييمات} other{{n} تقييم}}",
+  "@reviewCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewsNoReply": "لا يمكن الرد على التقييمات. إن كان أحدها غير لائق، أبلغي Kavza.",
+  "strikesTitle": "الإنذارات",
+  "strikesHow": "يُضاف إنذار عند إلغاء طلبية بعد قبولها. عند 3 إنذارات يُعلَّق المتجر 7 أيام. الرفض قبل القبول وانتهاء المهلة لا يُحتسبان.",
+  "strikesListTitle": "إنذاراتك",
+  "noStrikes": "لا توجد إنذارات.",
+  "appeal": "طعن",
+  "appealSent": "الطعن قيد المراجعة",
+  "appealTitle": "الطعن في الإنذار",
+  "appealBody": "اشرحي ما حدث. تراجع Kavza طعنك وتردّ عليك هنا.",
+  "appealText": "ما حدث",
+  "appealAttachment": "مرفقات (غير متاحة في النموذج)",
+  "appealDone": "أُرسل الطعن.",
+  "sendAppeal": "إرسال الطعن",
+  "noNotifications": "لا توجد إشعارات",
+  "noNotificationsHint": "تظهر هنا الطلبيات الجديدة والتقييمات والتنبيهات.",
+  "storeFaqPaidQ": "متى أحصل على أرباحي؟",
+  "storeFaqPaidA": "عند قبولك، يُقتطع المبلغ من الزبون وتحتفظ به Kavza. عند التسليم تُضاف أرباحك: ثمن المنتجات ناقص العمولة، وناقص رسوم التوصيل إن كان التوصيل مجانيًا.",
+  "storeFaqAcceptQ": "ماذا يحدث عند قبول طلبية؟",
+  "storeFaqAcceptA": "تؤمّن Kavza الدفع فورًا. إن كان رصيد الزبون غير كافٍ، تُلغى الطلبية ويعود المخزون، دون أي إنذار لكِ.",
+  "storeFaqStrikesQ": "كيف تعمل الإنذارات؟",
+  "storeFaqWithdrawQ": "كيف أسحب أرباحي؟",
+  "storeFaqWithdrawA": "من تبويب الأرباح، إلى حساب CCP المسجّل في ملف المتجر. الحد الأدنى {amount}.",
+  "@storeFaqWithdrawA": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "storeFaqContactQ": "لماذا لا أستطيع التواصل مع الزبون؟",
+  "storeFaqContactA": "لحماية الجميع، يمر كل شيء عبر Kavza: الدفع والتوصيل والمساعدة. لا تظهر لكِ إلا بلدية الزبون، والأرقام والروابط ممنوعة في كل النصوص.",
+  "storeSupportLine": "سؤال آخر؟ فريق دعم Kavza يرد خلال 24 ساعة."
+}

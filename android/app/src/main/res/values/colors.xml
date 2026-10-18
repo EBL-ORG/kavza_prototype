@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Same as KafzaColors.primary (lib/core/theme/kafza_colors.dart). -->
+    <color name="kafza_primary">#6316DB</color>
+</resources>

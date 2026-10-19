@@ -43,7 +43,7 @@ class TrackingScreen extends ConsumerWidget {
     final deliveredAt = o.timeOf(OrderStatus.delivered);
     final canReport = o.status == OrderStatus.delivered && now.difference(deliveredAt!) <= disputeWindow;
     final (moneyIcon, money) = moneyLine(context, o);
-    final optionsTotal = o.options.fold(0, (s, x) => s + x.price);
+    final optionsTotal = o.lines.expand((l) => l.options).fold(0, (s, x) => s + x.price);
 
     Future<void> cancel() async {
       final ok = await showKafzaDialog(
@@ -73,7 +73,7 @@ class TrackingScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(KafzaSpacing.lg).aboveGestureBar(context),
         children: [
-          Text(isolate(o.productTitle), style: text.titleLarge),
+          Text(l10n.orderTitle(o), style: text.titleLarge),
           Align(
             alignment: AlignmentDirectional.centerStart,
             child: InkWell(
@@ -160,8 +160,8 @@ class TrackingScreen extends ConsumerWidget {
           heading(l10n.orderStatusTitle),
           StatusTimeline(o),
           heading(l10n.orderDetailsTitle),
-          Text(l10n.qty(o.unit, o.qty), style: text.bodyMedium),
-          for (final x in o.options) Text(l10n.labelValue(isolate(x.group), isolate(x.value)), style: text.bodyMedium),
+          OrderLines(o),
+          const SizedBox(height: KafzaSpacing.md),
           if (o.deliveryDate case final d?) Text(l10n.deliveryOn(formatDay(l10n, d)), style: text.bodyMedium),
           Text(isolate('${o.address.label} · ${o.address.street}, ${o.address.commune}'), style: text.bodyMedium),
           const SizedBox(height: KafzaSpacing.lg),

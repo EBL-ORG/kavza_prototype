@@ -17,7 +17,7 @@ import '../theme/kafza_theme.dart';
 /// Icon, title and one line for a notification, built in the app language.
 (IconData, String, String) noticeText(AppLocalizations l10n, AppNotification n, AppState s) {
   final order = n.orderId == null ? null : s.orders.where((o) => o.id == n.orderId).firstOrNull;
-  final about = order == null ? '' : '${isolate(order.productTitle)} · ${ltr(order.id)}';
+  final about = order == null ? '' : '${l10n.orderTitle(order)} · ${ltr(order.id)}';
   return switch (n.kind) {
     NoticeKind.order when n.app == AppSide.store && n.status == OrderStatus.placed =>
       (IconsaxPlusLinear.receipt_text, l10n.noticeNewOrder, about),

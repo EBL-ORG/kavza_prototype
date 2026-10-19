@@ -127,7 +127,7 @@ class _StoreOrderScreenState extends ConsumerState<StoreOrderScreen> {
             ? const EdgeInsets.all(KafzaSpacing.lg).aboveGestureBar(context)
             : const EdgeInsets.all(KafzaSpacing.lg),
         children: [
-          Text(isolate(o.productTitle), style: text.titleLarge),
+          Text(l10n.orderTitle(o), style: text.titleLarge),
           Text(
             l10n.clientIn(isolate(o.address.commune), formatDateTime(l10n, o.placedAt)),
             style: text.bodyMedium!.copyWith(color: scheme.onSurfaceVariant),
@@ -162,8 +162,8 @@ class _StoreOrderScreenState extends ConsumerState<StoreOrderScreen> {
             ),
           ],
           heading(l10n.orderDetailsTitle),
-          Text(l10n.qty(o.unit, o.qty), style: text.bodyMedium),
-          for (final x in o.options) Text(l10n.labelValue(isolate(x.group), isolate(x.value)), style: text.bodyMedium),
+          OrderLines(o),
+          const SizedBox(height: KafzaSpacing.md),
           if (o.deliveryDate case final d?) Text(l10n.deliveryOn(formatDay(l10n, d)), style: text.bodyMedium),
           Text(l10n.deliveredToCommune(isolate(o.address.commune)), style: text.bodyMedium),
           heading(l10n.yourEarnings),

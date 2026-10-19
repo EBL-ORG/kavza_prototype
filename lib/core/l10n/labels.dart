@@ -1,4 +1,5 @@
 import '../contact_check.dart';
+import '../format/price.dart';
 import '../models/catalog.dart';
 import '../models/order.dart';
 import '../models/product.dart';
@@ -64,6 +65,11 @@ extension Labels on AppLocalizations {
         Unit.box => qtyBox(n),
         Unit.portion => qtyPortion(n),
       };
+
+  /// "Baklawa", or "Baklawa + 2 more" for a basket order.
+  String orderTitle(Order o) => o.lines.length == 1
+      ? isolate(o.lines.first.title)
+      : orderTitleMore(isolate(o.lines.first.title), o.lines.length - 1);
 
   /// Why a free text was blocked, plus the reason Kafza blocks it.
   String contactBlocked(ContactIssue i) => '${switch (i) {

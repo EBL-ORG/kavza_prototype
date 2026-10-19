@@ -42,6 +42,39 @@ class OrderOption {
   final int price;
 }
 
+/// One product as the client configured it, before the engine checks it.
+class OrderDraft {
+  const OrderDraft({required this.productId, required this.type, required this.qty, this.picks = const {}, this.date});
+
+  final String productId;
+  final OrderType type;
+  final num qty;
+
+  /// Option group id → choice ids, or the typed text for text groups.
+  final Map<String, List<String>> picks;
+  final DateTime? date;
+}
+
+/// One product of an order. Ready-made orders can hold several, from one store.
+class OrderLine {
+  const OrderLine({
+    required this.productId,
+    required this.title,
+    required this.unit,
+    required this.qty,
+    this.options = const [],
+    required this.total,
+  });
+
+  final String productId, title;
+  final Unit unit;
+  final num qty;
+  final List<OrderOption> options;
+
+  /// Unit price × qty + options.
+  final int total;
+}
+
 class OrderEvent {
   const OrderEvent(this.status, this.time, [this.note]);
 
@@ -55,15 +88,10 @@ class Order {
     required this.id,
     required this.clientId,
     required this.storeId,
-    required this.productId,
-    required this.productTitle,
-    required this.unit,
     required this.type,
-    required this.qty,
-    this.options = const [],
+    required this.lines,
     this.deliveryDate,
     required this.address,
-    required this.itemTotal,
     required this.deliveryFee,
     required this.freeDelivery,
     required this.status,
@@ -72,18 +100,20 @@ class Order {
     required this.history,
   });
 
-  final String id, clientId, storeId, productId, productTitle;
-  final Unit unit;
+  final String id, clientId, storeId;
   final OrderType type;
-  final num qty;
-  final List<OrderOption> options;
+
+  /// At least one; made-to-order orders have exactly one.
+  final List<OrderLine> lines;
 
   /// Made to order only.
   final DateTime? deliveryDate;
 
   /// Full address for the client and the courier; the store only ever shows `address.commune`.
   final Address address;
-  final int itemTotal, deliveryFee;
+  final int deliveryFee;
+
+  /// Only when every line has free delivery.
   final bool freeDelivery;
   final OrderStatus status;
   final Money money;
@@ -93,6 +123,8 @@ class Order {
   final List<OrderEvent> history;
 
   DateTime get placedAt => history.first.time;
+
+  int get itemTotal => lines.fold(0, (s, l) => s + l.total);
 
   /// What the client pays (PAY-01).
   int get total => itemTotal + (freeDelivery ? 0 : deliveryFee);
@@ -117,15 +149,10 @@ class Order {
         id: id,
         clientId: clientId,
         storeId: storeId,
-        productId: productId,
-        productTitle: productTitle,
-        unit: unit,
         type: type,
-        qty: qty,
-        options: options,
+        lines: lines,
         deliveryDate: deliveryDate,
         address: address,
-        itemTotal: itemTotal,
         deliveryFee: deliveryFee,
         freeDelivery: freeDelivery,
         status: status ?? this.status,

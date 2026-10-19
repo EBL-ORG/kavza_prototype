@@ -53,7 +53,9 @@ void main() {
     // The client places an order in the other app.
     final c = ProviderScope.containerOf(tester.element(find.byType(StoreApp)));
     final o = await c.read(orderEngineProvider.notifier).placeOrder(
-        clientId: demoClientId, productId: 'p-baklawa', type: OrderType.readyMade, qty: 1, addressId: 'a-home');
+        clientId: demoClientId,
+        addressId: 'a-home',
+        items: [const OrderDraft(productId: 'p-baklawa', type: OrderType.readyMade, qty: 1)]);
     await tester.pump();
     expect(find.text(l10n.noticeNewOrder), findsOneWidget);
     await tester.pump(const Duration(seconds: 5));

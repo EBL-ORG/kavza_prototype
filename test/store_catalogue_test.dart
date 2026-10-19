@@ -66,12 +66,10 @@ void main() {
 
     Future<Order> order(num qty, Map<String, List<String>> picks) => engine().placeOrder(
           clientId: demoClientId,
-          productId: id,
-          type: OrderType.madeToOrder,
-          qty: qty,
           addressId: 'a-home',
-          picks: picks,
-          deliveryDate: now.add(const Duration(days: 3)),
+          items: [
+            OrderDraft(productId: id, type: OrderType.madeToOrder, qty: qty, picks: picks, date: now.add(const Duration(days: 3))),
+          ],
         );
     await expectLater(order(1.25, {'g-box': ['c-plain']}), throwsOrderError(OrderError.invalidQty));
     await expectLater(order(1.5, {}), throwsOrderError(OrderError.missingOption));

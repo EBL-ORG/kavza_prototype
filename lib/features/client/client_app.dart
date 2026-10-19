@@ -7,6 +7,7 @@ import '../../core/data/seed.dart';
 import '../../core/l10n/app_localizations.dart';
 import '../../core/l10n/locale_provider.dart';
 import '../../core/models/notification.dart';
+import '../../core/models/order.dart';
 import '../../core/theme/kafza_theme.dart';
 import '../../core/widgets/kafza_logo.dart';
 import '../../core/widgets/kafza_sheet.dart';
@@ -14,7 +15,7 @@ import '../../core/widgets/notice_banner.dart';
 import 'favourites/favourites_screen.dart';
 import 'help/help_screen.dart';
 import 'home/home_screen.dart';
-import 'ordering/order_sheet.dart';
+import 'client_providers.dart';
 import 'ordering/placed_screen.dart';
 import 'ordering/summary_screen.dart';
 import 'orders/orders_screen.dart';
@@ -92,8 +93,13 @@ class _ClientAppState extends ConsumerState<ClientApp> {
             ],
           ),
           GoRoute(path: 'store/:id', builder: (_, state) => StorePage(id: state.pathParameters['id']!)),
-          GoRoute(path: 'product/:id', builder: (_, state) => ProductPage(id: state.pathParameters['id']!)),
-          GoRoute(path: 'order', builder: (_, state) => SummaryScreen(draft: state.extra! as OrderDraft)),
+          GoRoute(
+            path: 'product/:id',
+            builder: (_, state) =>
+                ProductPage(id: state.pathParameters['id']!, fromStore: state.uri.queryParameters['from'] == 'store'),
+          ),
+          // No extra: the store basket. Extra: a made-to-order draft, ordered on its own.
+          GoRoute(path: 'order', builder: (_, state) => SummaryScreen(draft: state.extra as OrderDraft?)),
           GoRoute(path: 'recharge', builder: (_, state) => RechargeScreen(missing: state.extra as int? ?? 0)),
           GoRoute(path: 'help', builder: (_, _) => const HelpScreen()),
         ],
@@ -121,7 +127,14 @@ class _ClientAppState extends ConsumerState<ClientApp> {
       builder: (_, child) => NoticeBanner(
         app: AppSide.client,
         to: demoClientId,
-        onTap: (n) => _router.go('/kafza/orders/${n.orderId}'),
+        onTap: (n) async {
+          // Going to the order leaves the store, so a full basket asks first.
+          if (ref.read(basketProvider) != null) {
+            if (!await confirmLeaveStore(_rootKey.currentContext!)) return;
+            ref.read(basketProvider.notifier).clear();
+          }
+          _router.go('/kafza/orders/${n.orderId}');
+        },
         child: child!,
       ),
     );

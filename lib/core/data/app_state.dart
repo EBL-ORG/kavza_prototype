@@ -60,7 +60,8 @@ class AppState {
   }
 
   /// A product with an unfinished order can't be deleted (STR-20).
-  bool hasOpenOrder(String productId) => orders.any((o) => o.productId == productId && _open.contains(o.status));
+  bool hasOpenOrder(String productId) =>
+      orders.any((o) => _open.contains(o.status) && o.lines.any((l) => l.productId == productId));
 
   static const _open = {
     OrderStatus.placed,
@@ -74,7 +75,7 @@ class AppState {
   ({double stars, int count})? rating({String? storeId, String? productId, Service? service}) {
     final rs = reviews.where((r) =>
         (storeId == null || r.storeId == storeId) &&
-        (productId == null || r.productId == productId) &&
+        (productId == null || r.productIds.contains(productId)) &&
         (service == null || r.service == service));
     if (rs.isEmpty) return null;
     return (stars: rs.fold(0, (sum, r) => sum + r.stars) / rs.length, count: rs.length);

@@ -3751,6 +3751,108 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'سؤال آخر؟ فريق دعم Kavza يرد خلال 24 ساعة.'**
   String get storeSupportLine;
+
+  /// No description provided for @orderTitleMore.
+  ///
+  /// In ar, this message translates to:
+  /// **'{n, plural, =1{{title} ومنتج آخر} =2{{title} ومنتجان آخران} few{{title} و{n} منتجات أخرى} other{{title} و{n} منتج آخر}}'**
+  String orderTitleMore(String title, int n);
+
+  /// No description provided for @buyNowTotal.
+  ///
+  /// In ar, this message translates to:
+  /// **'اشترِ الآن · {total}'**
+  String buyNowTotal(String total);
+
+  /// No description provided for @continueBrowsing.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة التسوق'**
+  String get continueBrowsing;
+
+  /// No description provided for @buyNowWithBasket.
+  ///
+  /// In ar, this message translates to:
+  /// **'{n, plural, =1{يشمل الشراء أيضًا المنتج الآخر في سلتك.} =2{يشمل الشراء أيضًا المنتجين الآخرين في سلتك.} few{يشمل الشراء أيضًا {n} منتجات أخرى في سلتك.} other{يشمل الشراء أيضًا {n} منتج آخر في سلتك.}}'**
+  String buyNowWithBasket(int n);
+
+  /// No description provided for @addToBasket.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف إلى السلة'**
+  String get addToBasket;
+
+  /// No description provided for @inBasket.
+  ///
+  /// In ar, this message translates to:
+  /// **'في السلة: {qty}'**
+  String inBasket(String qty);
+
+  /// No description provided for @basketMadeToOrder.
+  ///
+  /// In ar, this message translates to:
+  /// **'يُطلب وحده من صفحته، ولا يُضاف إلى السلة.'**
+  String get basketMadeToOrder;
+
+  /// No description provided for @basketOutOfStock.
+  ///
+  /// In ar, this message translates to:
+  /// **'نفد المخزون، لا يمكن إضافته إلى السلة.'**
+  String get basketOutOfStock;
+
+  /// No description provided for @viewBasket.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض السلة'**
+  String get viewBasket;
+
+  /// No description provided for @basketItems.
+  ///
+  /// In ar, this message translates to:
+  /// **'{n, plural, =1{منتج واحد} =2{منتجان} few{{n} منتجات} other{{n} منتج}}'**
+  String basketItems(int n);
+
+  /// No description provided for @leaveStoreTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مغادرة المتجر؟'**
+  String get leaveStoreTitle;
+
+  /// No description provided for @leaveStoreBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'ستُفرَغ سلتك وتُحذف المنتجات التي اخترتها. تحتوي السلة على منتجات من متجر واحد فقط.'**
+  String get leaveStoreBody;
+
+  /// No description provided for @leaveStoreConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'المغادرة وإفراغ السلة'**
+  String get leaveStoreConfirm;
+
+  /// No description provided for @stayInStore.
+  ///
+  /// In ar, this message translates to:
+  /// **'البقاء'**
+  String get stayInStore;
+
+  /// No description provided for @removeFromBasket.
+  ///
+  /// In ar, this message translates to:
+  /// **'إزالة من السلة'**
+  String get removeFromBasket;
+
+  /// No description provided for @lineUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يعد متوفرًا. أزِله للمتابعة.'**
+  String get lineUnavailable;
+
+  /// No description provided for @lineOnlyLeft.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتوفر {qty} فقط. خفّض الكمية.'**
+  String lineOnlyLeft(String qty);
 }
 
 class _AppLocalizationsDelegate

@@ -7,6 +7,7 @@ import '../l10n/app_localizations.dart';
 import '../l10n/labels.dart';
 import '../models/order.dart';
 import '../theme/kafza_theme.dart';
+import 'initial_image.dart';
 import 'kafza_badge.dart';
 
 /// One style per order status (DESIGN.md › Chips).
@@ -143,6 +144,50 @@ class StatusTimeline extends StatelessWidget {
       _ when _happyPath.contains(s) => (IconsaxPlusBold.record_circle, scheme.primary),
       _ => (IconsaxPlusLinear.close_circle, scheme.onSurfaceVariant),
     };
+  }
+}
+
+/// Each product of an order: picture, title, quantity and options, line total.
+class OrderLines extends StatelessWidget {
+  const OrderLines(this.order, {super.key});
+
+  final Order order;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    final secondary = text.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      spacing: KafzaSpacing.md,
+      children: [
+        for (final l in order.lines)
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: KafzaSpacing.md,
+            children: [
+              SizedBox.square(dimension: 48, child: InitialImage(l.title, id: l.productId)),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 2,
+                  children: [
+                    Text(isolate(l.title), style: text.bodyLarge),
+                    Text(l10n.qty(l.unit, l.qty), style: secondary),
+                    for (final x in l.options)
+                      Text(l10n.labelValue(isolate(x.group), isolate(x.value)), style: secondary),
+                  ],
+                ),
+              ),
+              Text(
+                formatPrice(context, l.total),
+                style: text.labelLarge!.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
+              ),
+            ],
+          ),
+      ],
+    );
   }
 }
 

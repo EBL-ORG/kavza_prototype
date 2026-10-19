@@ -1345,5 +1345,67 @@
   },
   "storeFaqContactQ": "لماذا لا أستطيع التواصل مع الزبون؟",
   "storeFaqContactA": "لحماية الجميع، يمر كل شيء عبر Kavza: الدفع والتوصيل والمساعدة. لا تظهر لكِ إلا بلدية الزبون، والأرقام والروابط ممنوعة في كل النصوص.",
-  "storeSupportLine": "سؤال آخر؟ فريق دعم Kavza يرد خلال 24 ساعة."
+  "storeSupportLine": "سؤال آخر؟ فريق دعم Kavza يرد خلال 24 ساعة.",
+  "orderTitleMore": "{n, plural, =1{{title} ومنتج آخر} =2{{title} ومنتجان آخران} few{{title} و{n} منتجات أخرى} other{{title} و{n} منتج آخر}}",
+  "@orderTitleMore": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "buyNowTotal": "اشترِ الآن · {total}",
+  "@buyNowTotal": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "continueBrowsing": "متابعة التسوق",
+  "buyNowWithBasket": "{n, plural, =1{يشمل الشراء أيضًا المنتج الآخر في سلتك.} =2{يشمل الشراء أيضًا المنتجين الآخرين في سلتك.} few{يشمل الشراء أيضًا {n} منتجات أخرى في سلتك.} other{يشمل الشراء أيضًا {n} منتج آخر في سلتك.}}",
+  "@buyNowWithBasket": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "addToBasket": "أضف إلى السلة",
+  "inBasket": "في السلة: {qty}",
+  "@inBasket": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "basketMadeToOrder": "يُطلب وحده من صفحته، ولا يُضاف إلى السلة.",
+  "basketOutOfStock": "نفد المخزون، لا يمكن إضافته إلى السلة.",
+  "viewBasket": "عرض السلة",
+  "basketItems": "{n, plural, =1{منتج واحد} =2{منتجان} few{{n} منتجات} other{{n} منتج}}",
+  "@basketItems": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "leaveStoreTitle": "مغادرة المتجر؟",
+  "leaveStoreBody": "ستُفرَغ سلتك وتُحذف المنتجات التي اخترتها. تحتوي السلة على منتجات من متجر واحد فقط.",
+  "leaveStoreConfirm": "المغادرة وإفراغ السلة",
+  "stayInStore": "البقاء",
+  "removeFromBasket": "إزالة من السلة",
+  "lineUnavailable": "لم يعد متوفرًا. أزِله للمتابعة.",
+  "lineOnlyLeft": "المتوفر {qty} فقط. خفّض الكمية.",
+  "@lineOnlyLeft": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  }
 }

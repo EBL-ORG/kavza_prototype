@@ -5,6 +5,7 @@ import '../../../core/contact_check.dart';
 import '../../../core/data/seed.dart';
 import '../../../core/format/price.dart';
 import '../../../core/l10n/app_localizations.dart';
+import '../../../core/l10n/labels.dart';
 import '../../../core/order_engine/order_engine.dart';
 import '../../../core/theme/kafza_theme.dart';
 import '../../../core/widgets/kafza_button.dart';
@@ -75,7 +76,7 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
                     for (final o in orders)
                       DropdownMenuItem(
                         value: o.id,
-                        child: Text('${ltr(o.id)} · ${isolate(o.productTitle)}', overflow: TextOverflow.ellipsis),
+                        child: Text('${ltr(o.id)} · ${l10n.orderTitle(o)}', overflow: TextOverflow.ellipsis),
                       ),
                   ],
                   onChanged: (v) => setState(() => _orderId = v),

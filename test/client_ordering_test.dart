@@ -10,12 +10,17 @@ import 'package:prototype/core/models/order.dart';
 import 'package:prototype/core/order_engine/order_engine.dart';
 import 'package:prototype/core/widgets/kafza_button.dart';
 import 'package:prototype/features/client/client_app.dart';
+import 'package:prototype/features/client/client_widgets.dart';
 import 'package:prototype/features/client/home/home_screen.dart';
 import 'package:prototype/features/client/ordering/placed_screen.dart';
+import 'package:prototype/features/client/ordering/summary_screen.dart';
+import 'package:prototype/features/client/store_page/store_page.dart';
 
 final l10n = lookupAppLocalizations(const Locale('ar'));
 
-Future<ProviderContainer> _open(WidgetTester tester, String productId) async {
+Future<ProviderContainer> _open(WidgetTester tester, String productId) => _openAt(tester, '/product/$productId');
+
+Future<ProviderContainer> _openAt(WidgetTester tester, String path) async {
   tester.view.physicalSize = const Size(780, 1688);
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
@@ -26,7 +31,7 @@ Future<ProviderContainer> _open(WidgetTester tester, String productId) async {
   await tester.pumpAndSettle();
   await tester.tap(find.image(const AssetImage('assets/logo/word logo white.png')));
   await tester.pumpAndSettle();
-  GoRouter.of(tester.element(find.byType(HomeScreen))).push('/product/$productId');
+  GoRouter.of(tester.element(find.byType(HomeScreen))).push(path);
   await tester.pumpAndSettle();
   return ProviderScope.containerOf(tester.element(find.byType(ClientApp)));
 }
@@ -34,12 +39,24 @@ Future<ProviderContainer> _open(WidgetTester tester, String productId) async {
 Future<void> _orderNowToSummary(WidgetTester tester) async {
   await tester.tap(find.text(l10n.orderNow));
   await tester.pumpAndSettle();
-  await tester.tap(find.textContaining(l10n.continueTotal('').trim()));
+  await tester.tap(find.textContaining(l10n.buyNowTotal('').trim()));
   await tester.pumpAndSettle();
 }
 
 /// Disposes the app so the clock and banner timers stop.
 Future<void> _close(WidgetTester tester) => tester.pumpWidget(const SizedBox());
+
+Finder _tile(String productId) => find.byWidgetPredicate((w) => w is ProductTile && w.product.id == productId);
+
+/// Quick add on a store page tile, then one of the sheet's two actions.
+Future<void> _quickAdd(WidgetTester tester, String productId, {bool buyNow = false}) async {
+  await tester.ensureVisible(_tile(productId));
+  await tester.pumpAndSettle();
+  await tester.tap(find.descendant(of: _tile(productId), matching: find.byType(IconButton)));
+  await tester.pumpAndSettle();
+  await tester.tap(buyNow ? find.textContaining(l10n.buyNowTotal('').trim()) : find.text(l10n.continueBrowsing));
+  await tester.pumpAndSettle();
+}
 
 void main() {
   testWidgets('order now → summary → placed: no debit; a second order offers to replace the first', (tester) async {
@@ -65,7 +82,7 @@ void main() {
 
     final s = c.read(orderEngineProvider);
     expect(s.order(first.id).status, OrderStatus.cancelledByClient);
-    expect(s.waitingOrder(demoClientId)!.productId, 'p-tcharek');
+    expect(s.waitingOrder(demoClientId)!.lines.single.productId, 'p-tcharek');
     await _close(tester);
   });
 
@@ -75,6 +92,8 @@ void main() {
     await _orderNowToSummary(tester);
     expect(tester.widget<FilledButton>(find.widgetWithText(FilledButton, l10n.placeOrder)).onPressed, isNull);
 
+    await tester.ensureVisible(find.text(l10n.rechargeCcp));
+    await tester.pumpAndSettle();
     await tester.tap(find.text(l10n.rechargeCcp));
     await tester.pumpAndSettle();
     await tester.tap(find.byType(KafzaButton));
@@ -89,6 +108,89 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(PlacedScreen), findsOneWidget);
     expect(c.read(orderEngineProvider).client(demoClientId).balance, balance); // still not debited
+    await _close(tester);
+  });
+
+  testWidgets('store basket: quick add, continue browsing, buy now → one order with every line', (tester) async {
+    final c = await _openAt(tester, '/store/s-fatma');
+    c.read(orderEngineProvider.notifier).setBalance(demoClientId, 20000);
+    await _quickAdd(tester, 'p-baklawa');
+    expect(find.byType(StorePage), findsOneWidget);
+    expect(find.text(l10n.basketItems(1)), findsOneWidget);
+
+    // Quick add again on the same product edits its line instead of adding a second one.
+    await tester.tap(find.descendant(of: _tile('p-baklawa'), matching: find.byType(IconButton)));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip(l10n.increase));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(l10n.continueBrowsing));
+    await tester.pumpAndSettle();
+    expect(find.text(l10n.basketItems(1)), findsOneWidget);
+
+    // From the store's own product page, Continue browsing goes back to the same store page.
+    await tester.ensureVisible(_tile('p-griwech'));
+    await tester.pumpAndSettle();
+    await tester.tap(_tile('p-griwech'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(l10n.orderNow));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(l10n.continueBrowsing));
+    await tester.pumpAndSettle();
+    expect(find.byType(StorePage, skipOffstage: false), findsOneWidget);
+    expect(find.text(l10n.basketItems(2)), findsOneWidget);
+
+    await _quickAdd(tester, 'p-tcharek', buyNow: true);
+    expect(find.byType(SummaryScreen), findsOneWidget);
+    await tester.tap(find.text(l10n.placeOrder));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(PlacedScreen), findsOneWidget);
+    final o = c.read(orderEngineProvider).waitingOrder(demoClientId)!;
+    expect(o.lines.map((l) => (l.productId, l.qty)), [('p-baklawa', 2), ('p-griwech', 1), ('p-tcharek', 1)]);
+    expect(o.total, 2 * 2400 + 1200 + 1500 + 325);
+    await _close(tester);
+  });
+
+  testWidgets('leaving a store with a basket asks first; Stay keeps it, Leave empties it', (tester) async {
+    await _openAt(tester, '/store/s-yemma');
+    // Made to order and sold out can't be added, and say why.
+    expect(find.descendant(of: _tile('p-msemen'), matching: find.byType(IconButton)), findsNothing);
+    expect(find.text(l10n.basketMadeToOrder), findsOneWidget);
+    await tester.dragUntilVisible(_tile('p-chakhchoukha'), find.byType(ListView).first, const Offset(0, -200));
+    await tester.pumpAndSettle();
+    expect(find.descendant(of: _tile('p-chakhchoukha'), matching: find.byType(IconButton)), findsNothing);
+    expect(find.text(l10n.basketOutOfStock), findsOneWidget);
+
+    await _quickAdd(tester, 'p-kesra');
+    await tester.binding.handlePopRoute(); // system Back
+    await tester.pumpAndSettle();
+    expect(find.text(l10n.leaveStoreTitle), findsOneWidget);
+    await tester.tap(find.text(l10n.stayInStore));
+    await tester.pumpAndSettle();
+    expect(find.byType(StorePage), findsOneWidget);
+    expect(find.text(l10n.basketItems(1)), findsOneWidget);
+
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(l10n.leaveStoreConfirm));
+    await tester.pumpAndSettle();
+    expect(find.byType(StorePage), findsNothing);
+
+    GoRouter.of(tester.element(find.byType(HomeScreen))).push('/store/s-yemma');
+    await tester.pumpAndSettle();
+    expect(find.text(l10n.viewBasket), findsNothing);
+    await _close(tester);
+  });
+
+  testWidgets('product page: Continue browsing opens its store with the product already in the basket', (tester) async {
+    await _open(tester, 'p-baklawa');
+    await tester.tap(find.text(l10n.orderNow));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(l10n.continueBrowsing));
+    await tester.pumpAndSettle();
+    expect(find.byType(StorePage), findsOneWidget);
+    expect(find.text(l10n.basketItems(1)), findsOneWidget);
+    expect(find.descendant(of: _tile('p-baklawa'), matching: find.byType(Badge)), findsOneWidget);
     await _close(tester);
   });
 

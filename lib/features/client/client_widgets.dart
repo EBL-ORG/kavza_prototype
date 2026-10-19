@@ -76,20 +76,27 @@ class ProductCard extends ConsumerWidget {
   }
 }
 
-/// Row for product lists (search, store page, favourites).
+/// Row for product lists (search, store page, favourites). On its store's page ([inStore])
+/// it drops the store name, says why a product can't join the basket, and ends with [trailing].
 class ProductTile extends ConsumerWidget {
-  const ProductTile(this.product, {super.key, this.showStore = true});
+  const ProductTile(this.product, {super.key, this.inStore = false, this.trailing});
 
   final Product product;
-  final bool showStore;
+  final bool inStore;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final store = ref.watch(orderEngineProvider.select((s) => s.store(product.storeId)));
     final badge = _stateBadge(l10n, product);
+    final basketNote = !inStore || product.canOrderNow
+        ? null
+        : product.madeToOrder != null
+            ? l10n.basketMadeToOrder
+            : l10n.basketOutOfStock;
     return InkWell(
-      onTap: () => context.push('/product/${product.id}'),
+      onTap: () => context.push('/product/${product.id}${inStore ? '?from=store' : ''}'),
       child: Padding(
         padding: const EdgeInsetsDirectional.symmetric(horizontal: KafzaSpacing.lg, vertical: KafzaSpacing.md),
         child: Row(
@@ -103,16 +110,18 @@ class ProductTile extends ConsumerWidget {
                 spacing: 2,
                 children: [
                   Text(isolate(product.title), style: Theme.of(context).textTheme.bodyLarge),
-                  if (showStore)
+                  if (!inStore)
                     Text(
                       l10n.storeDistance(isolate(store.name), formatNumber(context, store.distanceKm)),
                       style: _metaStyle(context),
                     ),
                   Text(_price(context, product), style: _priceStyle(context)),
                   if (badge != null) ...[const SizedBox(height: 2), badge],
+                  if (basketNote != null) Text(basketNote, style: _metaStyle(context)),
                 ],
               ),
             ),
+            ?trailing,
           ],
         ),
       ),

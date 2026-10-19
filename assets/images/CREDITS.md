@@ -38,15 +38,15 @@ Bundled demo photos from Wikimedia Commons, resized and re-encoded. Each file ke
 | s-amina_0.jpg | [File:Jean Philippe Patisserie - 5791974474.jpg](https://commons.wikimedia.org/wiki/File:Jean_Philippe_Patisserie_-_5791974474.jpg) | Calgary Reviews | CC BY 2.0 |
 | s-yemma_0.jpg | [File:Vedène La Sultana Couscous au poulet.JPG](https://commons.wikimedia.org/wiki/File:Ved%C3%A8ne_La_Sultana_Couscous_au_poulet.JPG) | Marianne Casamance | CC BY-SA 4.0 |
 | s-nour_0.jpg | [File:Kashmiri-hand-embroidery-bait-ul-meeras.jpg](https://commons.wikimedia.org/wiki/File:Kashmiri-hand-embroidery-bait-ul-meeras.jpg) | Zatara-Iqbal | CC BY-SA 4.0 |
-| s-fekhar_0.jpg | [File:02025 0230 Early medieval potter at work.jpg](https://commons.wikimedia.org/wiki/File:02025_0230_Early_medieval_potter_at_work.jpg) | Auctor quaerendae | CC BY-SA 4.0 |
+| s-fekhar_0.jpg | [File:Artisanat kabyle.jpg](https://commons.wikimedia.org/wiki/File:Artisanat_kabyle.jpg) | Saber68 | CC BY-SA 3.0 |
 | s-thiziri_0.jpg | [File:Fibules kabyles et amulette.jpg](https://commons.wikimedia.org/wiki/File:Fibules_kabyles_et_amulette.jpg) | Unknown authorUnknown author | CC BY-SA 4.0 |
 | c-yacine_0.jpg | [File:Smiling Man (Imagicity 97).jpg](https://commons.wikimedia.org/wiki/File:Smiling_Man_(Imagicity_97).jpg) | Graham Crumb | CC BY-SA 3.0 |
 | s-hlou_0.jpg | [File:Gateaux traditionnels de l'aid.jpg](https://commons.wikimedia.org/wiki/File:Gateaux_traditionnels_de_l%27aid.jpg) | Sahki rami | CC BY-SA 4.0 |
 | s-zohra_0.jpg | [File:Algerian Couscous from Biskra.jpg](https://commons.wikimedia.org/wiki/File:Algerian_Couscous_from_Biskra.jpg) | Nasimanilsen25 | CC BY-SA 4.0 |
 | s-zineb_0.jpg | [File:Chedda de Tlemcen - Habits traditionnel.jpg](https://commons.wikimedia.org/wiki/File:Chedda_de_Tlemcen_-_Habits_traditionnel.jpg) | Chawachawa 1 | CC BY-SA 4.0 |
 | s-tafsut_0.jpg | [File:Robe et fouta kabyle exposées à Alger.jpg](https://commons.wikimedia.org/wiki/File:Robe_et_fouta_kabyle_expos%C3%A9es_%C3%A0_Alger.jpg) | Waran18 | CC0 |
-| s-tinhinan_0.jpg | [File:Atelier bijoutiers.jpg](https://commons.wikimedia.org/wiki/File:Atelier_bijoutiers.jpg) | Saadou taleb bendiab | CC BY-SA 4.0 |
+| s-tinhinan_0.jpg | Same photo as `p-touareg_0.jpg` | Supplied by the project owner | n/a |
 | s-nedroma_0.jpg | [File:Kabyle pottery 2.jpg](https://commons.wikimedia.org/wiki/File:Kabyle_pottery_2.jpg) | Ghachi Ishaq | CC BY-SA 4.0 |
-| s-ghardaia_0.jpg | [File:Market of Ksar Ghardaïa 01.jpg](https://commons.wikimedia.org/wiki/File:Market_of_Ksar_Gharda%C3%AFa_01.jpg) | Bernard Gagnon | CC BY 4.0 |
+| s-ghardaia_0.jpg | [File:ASC Leiden - van Achterberg Collection - 13 - 56 - Une jeune femme tisse un tapis avec des fils verticaux - Djelfa, Algérie - Avril-mai 1981.jpg](https://commons.wikimedia.org/wiki/File:ASC_Leiden_-_van_Achterberg_Collection_-_13_-_56_-_Une_jeune_femme_tisse_un_tapis_avec_des_fils_verticaux_-_Djelfa,_Alg%C3%A9rie_-_Avril-mai_1981.jpg) | Angeline A. van Achterberg | CC BY-SA 4.0 |
 
-Product photos for the stores Hlou Qacentina, Cuisine Khalti Zohra, Maison Lalla Zineb, Atelier Tafsut, Bijoux Tin Hinan, Fekhara Nedroma and Tissages de Ghardaïa (`p-osier` … `p-zerbia`) were supplied by the project owner.
+Product photos for the stores Hlou Qacentina, Cuisine Khalti Zohra, Maison Lalla Zineb, Atelier Tafsut, Bijoux Tin Hinan, Fekhara Nedroma and Tissages Lalla Aïcha (`p-osier` … `p-zerbia`) were supplied by the project owner.

@@ -608,5 +608,22 @@
   "storeFaqWithdrawA": "Depuis l'onglet Gains, vers le compte CCP de votre profil. Minimum {amount}.",
   "storeFaqContactQ": "Pourquoi ne puis-je pas contacter le client ?",
   "storeFaqContactA": "Pour protéger tout le monde, tout passe par Kavza : paiement, livraison et aide. Vous voyez seulement la commune du client, et les numéros et liens sont bloqués dans tous les textes.",
-  "storeSupportLine": "Une autre question ? Le support Kavza répond sous 24 h."
+  "storeSupportLine": "Une autre question ? Le support Kavza répond sous 24 h.",
+  "orderTitleMore": "{n, plural, =1{{title} + 1 autre article} other{{title} + {n} autres articles}}",
+  "buyNowTotal": "Acheter maintenant · {total}",
+  "continueBrowsing": "Continuer mes achats",
+  "buyNowWithBasket": "{n, plural, =1{L'achat inclut aussi l'autre article de votre panier.} other{L'achat inclut aussi les {n} autres articles de votre panier.}}",
+  "addToBasket": "Ajouter au panier",
+  "inBasket": "Dans le panier : {qty}",
+  "basketMadeToOrder": "Se commande seul depuis sa page, pas dans le panier.",
+  "basketOutOfStock": "Rupture de stock : impossible de l'ajouter au panier.",
+  "viewBasket": "Voir le panier",
+  "basketItems": "{n, plural, =1{1 article} other{{n} articles}}",
+  "leaveStoreTitle": "Quitter la boutique ?",
+  "leaveStoreBody": "Votre panier sera vidé et les articles choisis retirés. Un panier ne contient que les articles d'une seule boutique.",
+  "leaveStoreConfirm": "Quitter et vider le panier",
+  "stayInStore": "Rester",
+  "removeFromBasket": "Retirer du panier",
+  "lineUnavailable": "N'est plus disponible. Retirez-le pour continuer.",
+  "lineOnlyLeft": "Plus que {qty} en stock. Réduisez la quantité."
 }

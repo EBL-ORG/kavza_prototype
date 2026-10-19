@@ -49,9 +49,12 @@ class StoreOrderCard extends ConsumerWidget {
     final o = order;
     final placed = o.status == OrderStatus.placed;
     if (placed) ref.watch(clockProvider.select((t) => t.millisecondsSinceEpoch ~/ 60000));
+    final single = o.lines.length == 1;
     final details = [
-      l10n.qty(o.unit, o.qty),
-      for (final x in o.options) isolate(x.value),
+      for (final l in o.lines) ...[
+        single ? l10n.qty(l.unit, l.qty) : l10n.labelValue(isolate(l.title), l10n.qty(l.unit, l.qty)),
+        for (final x in l.options) isolate(x.value),
+      ],
       if (o.deliveryDate case final d?) l10n.deliveryOn(formatDay(l10n, d)),
     ].join(' · ');
 
@@ -65,7 +68,7 @@ class StoreOrderCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: KafzaSpacing.md,
             children: [
-              SizedBox.square(dimension: 48, child: InitialImage(o.productTitle, id: o.productId)),
+              SizedBox.square(dimension: 48, child: InitialImage(o.lines.first.title, id: o.lines.first.productId)),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +78,7 @@ class StoreOrderCard extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: KafzaSpacing.sm,
                       children: [
-                        Expanded(child: Text(isolate(o.productTitle), style: text.bodyLarge)),
+                        Expanded(child: Text(l10n.orderTitle(o), style: text.bodyLarge)),
                         Text(formatPrice(context, o.total), style: text.labelLarge!.copyWith(fontFeatures: tabular)),
                       ],
                     ),

@@ -98,7 +98,7 @@ class Review {
   const Review({
     required this.orderId,
     required this.storeId,
-    required this.productId,
+    required this.productIds,
     required this.service,
     required this.stars,
     this.comment = '',
@@ -106,7 +106,10 @@ class Review {
     this.reported = false,
   });
 
-  final String orderId, storeId, productId, comment;
+  final String orderId, storeId, comment;
+
+  /// Every product of the order: one review counts for each of them.
+  final List<String> productIds;
   final Service service;
   final int stars;
   final DateTime time;
@@ -117,7 +120,7 @@ class Review {
   Review copyWith({bool? reported}) => Review(
         orderId: orderId,
         storeId: storeId,
-        productId: productId,
+        productIds: productIds,
         service: service,
         stars: stars,
         comment: comment,

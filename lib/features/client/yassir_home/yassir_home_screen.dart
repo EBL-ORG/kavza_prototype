@@ -23,19 +23,31 @@ class YassirHomeScreen extends ConsumerWidget {
     final text = Theme.of(context).textTheme;
     final scheme = Theme.of(context).colorScheme;
     final k = context.kafza;
-    final client = ref.watch(orderEngineProvider.select((s) => s.client(demoClientId)));
+    final client = ref.watch(
+      orderEngineProvider.select((s) => s.client(demoClientId)),
+    );
     final firstName = client.name.split(' ').first;
 
     void notInDemo() => ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(l10n.yassirNotInDemo)));
 
-    Widget round(IconData icon, String tooltip, Color bg, Color fg, VoidCallback onTap) => IconButton.filled(
-          icon: Icon(icon),
-          tooltip: tooltip,
-          onPressed: onTap,
-          style: IconButton.styleFrom(backgroundColor: bg, foregroundColor: fg, fixedSize: const Size.square(44)),
-        );
+    Widget round(
+      IconData icon,
+      String tooltip,
+      Color bg,
+      Color fg,
+      VoidCallback onTap,
+    ) => IconButton.filled(
+      icon: Icon(icon),
+      tooltip: tooltip,
+      onPressed: onTap,
+      style: IconButton.styleFrom(
+        backgroundColor: bg,
+        foregroundColor: fg,
+        fixedSize: const Size.square(44),
+      ),
+    );
 
     return Scaffold(
       body: SafeArea(
@@ -50,39 +62,73 @@ class YassirHomeScreen extends ConsumerWidget {
                     onTap: notInDemo,
                     borderRadius: BorderRadius.circular(KafzaRadius.input),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: KafzaSpacing.xs),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: KafzaSpacing.xs,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
-                              Flexible(child: Text(l10n.yassirLocation, style: text.labelLarge)),
-                              Icon(KafzaIcons.chevronEnd, size: 20, color: k.accent),
+                              Flexible(
+                                child: Text(
+                                  l10n.yassirLocation,
+                                  style: text.labelLarge,
+                                ),
+                              ),
+                              Icon(
+                                KafzaIcons.chevronEnd,
+                                size: 20,
+                                color: k.accent,
+                              ),
                             ],
                           ),
                           Text(
                             isolate(client.addresses.first.label),
-                            style: text.bodyMedium!.copyWith(color: scheme.onSurfaceVariant),
+                            style: text.bodyMedium!.copyWith(
+                              color: scheme.onSurfaceVariant,
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
                 ),
-                SizedBox.square(dimension: 44, child: InitialImage(client.name, id: client.id, radius: 22)),
+                SizedBox.square(
+                  dimension: 44,
+                  child: InitialImage(client.name, id: client.id, radius: 22),
+                ),
               ],
             ),
             const SizedBox(height: KafzaSpacing.lg),
             BalanceCard(
               balance: client.balance,
               actions: [
-                round(IconsaxPlusLinear.send_2, l10n.yassirSend, scheme.onPrimary, k.ink, notInDemo),
-                round(IconsaxPlusLinear.add, l10n.yassirTopUp, scheme.primary, scheme.onPrimary, () => context.push('/recharge')),
+                round(
+                  IconsaxPlusLinear.send_2,
+                  l10n.yassirSend,
+                  scheme.onPrimary,
+                  k.ink,
+                  notInDemo,
+                ),
+                round(
+                  IconsaxPlusLinear.add,
+                  l10n.yassirTopUp,
+                  scheme.primary,
+                  scheme.onPrimary,
+                  () => context.push('/recharge'),
+                ),
               ],
             ),
             const SizedBox(height: KafzaSpacing.xl),
-            Text(l10n.yassirHello(isolate(firstName)), style: text.headlineMedium),
-            Text(l10n.yassirWhatToday, style: text.bodyLarge!.copyWith(color: scheme.onSurfaceVariant)),
+            Text(
+              l10n.yassirHello(isolate(firstName)),
+              style: text.headlineMedium,
+            ),
+            Text(
+              l10n.yassirWhatToday,
+              style: text.bodyLarge!.copyWith(color: scheme.onSurfaceVariant),
+            ),
             const SizedBox(height: KafzaSpacing.lg),
             // Kavza: the one tile this demo is about, first and in brand purple.
             Material(
@@ -105,11 +151,23 @@ class YassirHomeScreen extends ConsumerWidget {
                               spacing: KafzaSpacing.sm,
                               children: [
                                 // White word logo: the purple one vanishes on purple.
-                                Image.asset('assets/logo/word logo white.png', height: 40, semanticLabel: l10n.kafza),
-                                KafzaBadge(l10n.badgeNew, tone: BadgeTone.success),
+                                Image.asset(
+                                  'assets/logo/word logo white.png',
+                                  height: 40,
+                                  semanticLabel: l10n.kafza,
+                                ),
+                                KafzaBadge(
+                                  l10n.badgeNew,
+                                  tone: BadgeTone.success,
+                                ),
                               ],
                             ),
-                            Text(l10n.kafzaTileHint, style: text.bodyMedium!.copyWith(color: k.primaryTint)),
+                            Text(
+                              l10n.kafzaTileHint,
+                              style: text.bodyMedium!.copyWith(
+                                color: k.primaryTint,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -128,10 +186,26 @@ class YassirHomeScreen extends ConsumerWidget {
               crossAxisSpacing: KafzaSpacing.md,
               childAspectRatio: 1.35,
               children: [
-                ServiceTile(emoji: 'ride', label: l10n.yassirRide, onTap: notInDemo),
-                ServiceTile(emoji: 'food', label: l10n.yassirFood, onTap: notInDemo),
-                ServiceTile(emoji: 'market', label: l10n.yassirMarket, onTap: notInDemo),
-                ServiceTile(emoji: 'parcel', label: l10n.yassirParcel, onTap: notInDemo),
+                ServiceTile(
+                  emoji: 'ride',
+                  label: l10n.yassirRide,
+                  onTap: notInDemo,
+                ),
+                ServiceTile(
+                  emoji: 'food',
+                  label: l10n.yassirFood,
+                  onTap: notInDemo,
+                ),
+                ServiceTile(
+                  emoji: 'market',
+                  label: l10n.yassirMarket,
+                  onTap: notInDemo,
+                ),
+                ServiceTile(
+                  emoji: 'parcel',
+                  label: l10n.yassirParcel,
+                  onTap: notInDemo,
+                ),
               ],
             ),
           ],

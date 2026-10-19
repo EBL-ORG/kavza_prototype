@@ -3,6 +3,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/contact_check.dart';
+import '../../../core/data/app_state.dart';
 import '../../../core/data/clock.dart';
 import '../../../core/data/seed.dart';
 import '../../../core/format/price.dart';
@@ -20,24 +21,26 @@ import '../../../core/widgets/quantity_stepper.dart';
 import '../client_providers.dart';
 import '../client_widgets.dart';
 
-/// What the order sheet hands to the summary. The address is `addressIdProvider`.
-class OrderDraft {
-  const OrderDraft({required this.productId, required this.type, required this.qty, this.picks = const {}, this.date});
-
-  final String productId;
-  final OrderType type;
-  final num qty;
-
-  /// Option group id → choice ids, or the typed text for text groups.
-  final Map<String, List<String>> picks;
-  final DateTime? date;
-}
-
 /// Unit price × qty, and the options on top (what PriceBreakdown shows).
 ({int items, int options}) draftAmounts(Product p, OrderDraft d) {
   final unit = d.type == OrderType.readyMade ? p.readyMade!.price : p.madeToOrder!.price;
   final items = (unit * d.qty).round();
   return (items: items, options: itemTotalOf(p, d.type, d.qty, d.picks) - items);
+}
+
+/// What drafts from one store cost as one order: one delivery fee, free only when every
+/// product has free delivery (as the engine prices it).
+({int items, int options, int fee, bool free, int total}) draftsAmounts(AppState s, List<OrderDraft> drafts) {
+  var items = 0, options = 0;
+  for (final d in drafts) {
+    final a = draftAmounts(s.product(d.productId), d);
+    items += a.items;
+    options += a.options;
+  }
+  final products = [for (final d in drafts) s.product(d.productId)];
+  final fee = deliveryFee(s.store(products.first.storeId).distanceKm);
+  final free = products.every((p) => p.freeDelivery);
+  return (items: items, options: options, fee: fee, free: free, total: items + options + (free ? 0 : fee));
 }
 
 /// "2 × 2 400 DA".
@@ -56,9 +59,13 @@ DateTime? firstDeliveryDay(MadeToOrder m, DateTime now) {
   return null;
 }
 
+typedef OrderSheetResult = ({OrderDraft draft, bool buyNow});
+
 /// C6: "Order now" (qty + address) or "Order made for me" (qty, options, date, address).
-Future<OrderDraft?> showOrderSheet(BuildContext context, String productId, OrderType type) =>
-    showKafzaSheet<OrderDraft>(context, (_) => _OrderSheet(productId, type));
+/// Ready-made ends with Buy now or Continue browsing (into the store basket); made to order
+/// can't join a basket, so it only continues to its summary (`buyNow` true).
+Future<OrderSheetResult?> showOrderSheet(BuildContext context, String productId, OrderType type) =>
+    showKafzaSheet<OrderSheetResult>(context, (_) => _OrderSheet(productId, type));
 
 class _OrderSheet extends ConsumerStatefulWidget {
   const _OrderSheet(this.productId, this.type);
@@ -91,9 +98,15 @@ class _OrderSheetState extends ConsumerState<_OrderSheet> {
     final m = p.madeToOrder;
     final rm = p.readyMade;
 
+    // The store basket, when it is this store's: Buy now checks it all out with this product.
+    final basket = ref.watch(basketProvider);
+    final basketItems = basket?.storeId == store.id ? basket!.items : const <OrderDraft>[];
+    final inBasket = made ? null : basketItems.where((d) => d.productId == p.id).firstOrNull;
+    final others = [for (final d in basketItems) if (d.productId != p.id) d];
+
     final min = made ? m!.minQty : 1;
     final max = made ? m!.maxQty : rm!.available;
-    var qty = _qty ?? min;
+    var qty = _qty ?? inBasket?.qty ?? min;
     if (max != null && qty > max && max >= min) qty = max; // stock went down while the sheet was open
     final soldOut = !made && rm!.available < 1;
 
@@ -313,10 +326,23 @@ class _OrderSheetState extends ConsumerState<_OrderSheet> {
                         l10n.toContinue(missing.join(l10n.listSeparator)),
                         style: text.bodySmall!.copyWith(color: secondary),
                       ),
-                    FilledButton(
-                      onPressed: valid ? () => Navigator.pop(context, draft) : null,
-                      child: Text(l10n.continueTotal(formatPrice(context, total))),
-                    ),
+                    if (made)
+                      FilledButton(
+                        onPressed: valid ? () => Navigator.pop(context, (draft: draft, buyNow: true)) : null,
+                        child: Text(l10n.continueTotal(formatPrice(context, total))),
+                      )
+                    else ...[
+                      if (others.isNotEmpty)
+                        Text(l10n.buyNowWithBasket(others.length), style: text.bodySmall!.copyWith(color: secondary)),
+                      FilledButton(
+                        onPressed: valid ? () => Navigator.pop(context, (draft: draft, buyNow: true)) : null,
+                        child: Text(l10n.buyNowTotal(formatPrice(context, draftsAmounts(state, [...others, draft]).total))),
+                      ),
+                      OutlinedButton(
+                        onPressed: valid ? () => Navigator.pop(context, (draft: draft, buyNow: false)) : null,
+                        child: Text(l10n.continueBrowsing),
+                      ),
+                    ],
                   ],
                 ),
               ),

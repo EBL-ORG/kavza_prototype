@@ -79,7 +79,7 @@ class ReviewsScreen extends ConsumerWidget {
                     ],
                   ),
                   Text(
-                    isolate(state.products.where((p) => p.id == r.productId).firstOrNull?.title ?? r.orderId),
+                    [for (final p in state.products) if (r.productIds.contains(p.id)) isolate(p.title)].join(l10n.listSeparator),
                     style: text.labelLarge,
                   ),
                   if (r.comment.isNotEmpty) Text(isolate(r.comment), style: text.bodyMedium),

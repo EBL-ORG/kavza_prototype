@@ -2171,4 +2171,89 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get storeSupportLine =>
       'Une autre question ? Le support Kavza répond sous 24 h.';
+
+  @override
+  String orderTitleMore(String title, int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$title + $n autres articles',
+      one: '$title + 1 autre article',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String buyNowTotal(String total) {
+    return 'Acheter maintenant · $total';
+  }
+
+  @override
+  String get continueBrowsing => 'Continuer mes achats';
+
+  @override
+  String buyNowWithBasket(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'L\'achat inclut aussi les $n autres articles de votre panier.',
+      one: 'L\'achat inclut aussi l\'autre article de votre panier.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get addToBasket => 'Ajouter au panier';
+
+  @override
+  String inBasket(String qty) {
+    return 'Dans le panier : $qty';
+  }
+
+  @override
+  String get basketMadeToOrder =>
+      'Se commande seul depuis sa page, pas dans le panier.';
+
+  @override
+  String get basketOutOfStock =>
+      'Rupture de stock : impossible de l\'ajouter au panier.';
+
+  @override
+  String get viewBasket => 'Voir le panier';
+
+  @override
+  String basketItems(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n articles',
+      one: '1 article',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leaveStoreTitle => 'Quitter la boutique ?';
+
+  @override
+  String get leaveStoreBody =>
+      'Votre panier sera vidé et les articles choisis retirés. Un panier ne contient que les articles d\'une seule boutique.';
+
+  @override
+  String get leaveStoreConfirm => 'Quitter et vider le panier';
+
+  @override
+  String get stayInStore => 'Rester';
+
+  @override
+  String get removeFromBasket => 'Retirer du panier';
+
+  @override
+  String get lineUnavailable =>
+      'N\'est plus disponible. Retirez-le pour continuer.';
+
+  @override
+  String lineOnlyLeft(String qty) {
+    return 'Plus que $qty en stock. Réduisez la quantité.';
+  }
 }

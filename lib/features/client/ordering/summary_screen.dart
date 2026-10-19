@@ -19,6 +19,7 @@ import '../../../core/widgets/kafza_badge.dart';
 import '../../../core/widgets/kafza_sheet.dart';
 import '../../../core/widgets/kafza_button.dart';
 import '../../../core/widgets/order_widgets.dart';
+import '../../../core/widgets/quantity_stepper.dart';
 import '../client_providers.dart';
 import '../client_widgets.dart';
 import 'order_sheet.dart';
@@ -35,11 +36,13 @@ List<String> draftOptionLines(AppLocalizations l10n, Product p, OrderDraft d) =>
           ),
     ];
 
-/// C7: order summary (CLT-18…22). Cancel goes back to the product; nothing is created.
+/// C7: order summary (CLT-18…22). Without [draft] it checks out the store basket, whose
+/// quantities can still change here. Cancel goes back; nothing is created.
 class SummaryScreen extends ConsumerWidget {
-  const SummaryScreen({super.key, required this.draft});
+  const SummaryScreen({super.key, this.draft});
 
-  final OrderDraft draft;
+  /// A made-to-order draft: it is ordered on its own, never from the basket.
+  final OrderDraft? draft;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,15 +50,31 @@ class SummaryScreen extends ConsumerWidget {
     final text = Theme.of(context).textTheme;
     final secondary = Theme.of(context).colorScheme.onSurfaceVariant;
     final state = ref.watch(orderEngineProvider);
-    final p = state.product(draft.productId);
-    final store = state.store(p.storeId);
+    final basket = ref.watch(basketProvider);
+    final items = draft != null ? [draft!] : basket?.items ?? const <OrderDraft>[];
+    // The last line was just removed and the screen is closing.
+    if (items.isEmpty) return Scaffold(appBar: AppBar(title: Text(l10n.summaryTitle)));
+    final fromBasket = draft == null;
+    final store = state.store(state.product(items.first.productId).storeId);
     final client = state.client(demoClientId);
     final addressId = ref.watch(addressIdProvider);
     final address = client.addresses.firstWhere((a) => a.id == addressId, orElse: () => client.addresses.first);
-    final amounts = draftAmounts(p, draft);
-    final fee = deliveryFee(store.distanceKm);
-    final total = amounts.items + amounts.options + (p.freeDelivery ? 0 : fee);
-    final missing = total - client.balance;
+    final amounts = draftsAmounts(state, items);
+    final missing = amounts.total - client.balance;
+    final now = ref.read(clockProvider);
+
+    // What changed since the product went in the basket: the store paused it, or stock fell.
+    String? problem(Product p, OrderDraft d) {
+      if (d.type != OrderType.readyMade) return null;
+      final available = p.readyMade?.available ?? 0;
+      if (p.status != ProductStatus.live || !state.takingOrders(store, now) || available < 1) {
+        return l10n.lineUnavailable;
+      }
+      if (d.qty > available) return l10n.lineOnlyLeft(l10n.qty(p.unit, available));
+      return null;
+    }
+
+    final blocked = items.any((d) => problem(state.product(d.productId), d) != null);
 
     Future<void> place() async {
       final engine = ref.read(orderEngineProvider.notifier);
@@ -77,16 +96,10 @@ class SummaryScreen extends ConsumerWidget {
         }
       }
       try {
-        final o = await engine.placeOrder(
-          clientId: demoClientId,
-          productId: p.id,
-          type: draft.type,
-          qty: draft.qty,
-          addressId: address.id,
-          picks: draft.picks,
-          deliveryDate: draft.date,
-        );
-        if (context.mounted) context.go('/kafza/orders/${o.id}/placed');
+        final o = await engine.placeOrder(clientId: demoClientId, addressId: address.id, items: items);
+        if (!context.mounted) return;
+        if (fromBasket) ref.read(basketProvider.notifier).clear();
+        context.go('/kafza/orders/${o.id}/placed');
       } on OrderException catch (e) {
         if (!context.mounted) return;
         ScaffoldMessenger.of(context)
@@ -120,38 +133,52 @@ class SummaryScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(KafzaSpacing.lg),
         children: [
-          Row(
-            spacing: KafzaSpacing.md,
+          Wrap(
+            spacing: KafzaSpacing.sm,
+            runSpacing: KafzaSpacing.xs,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              SizedBox.square(dimension: 64, child: InitialImage(p.title, id: p.id)),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 2,
-                  children: [
-                    Text(isolate(p.title), style: text.titleMedium),
-                    Text(
-                      l10n.storeDistance(isolate(store.name), formatNumber(context, store.distanceKm)),
-                      style: text.bodySmall!.copyWith(color: secondary),
-                    ),
-                    KafzaBadge(draft.type == OrderType.readyMade ? l10n.readyMadeTitle : l10n.madeToOrderTitle),
-                  ],
-                ),
+              Text(
+                l10n.storeDistance(isolate(store.name), formatNumber(context, store.distanceKm)),
+                style: text.bodyMedium!.copyWith(color: secondary),
               ),
+              KafzaBadge(items.first.type == OrderType.readyMade ? l10n.readyMadeTitle : l10n.madeToOrderTitle),
             ],
           ),
+          for (final d in items) ...[
+            const SizedBox(height: KafzaSpacing.lg),
+            _DraftLine(
+              draft: d,
+              problem: problem(state.product(d.productId), d),
+              onQty: fromBasket
+                  ? (v) => ref
+                      .read(basketProvider.notifier)
+                      .put(store.id, OrderDraft(productId: d.productId, type: d.type, qty: v))
+                  : null,
+              onRemove: fromBasket
+                  ? () {
+                      ref.read(basketProvider.notifier).remove(d.productId);
+                      if (items.length == 1) context.pop();
+                    }
+                  : null,
+            ),
+          ],
           const SizedBox(height: KafzaSpacing.xl),
-          row(IconsaxPlusLinear.bag_2, l10n.quantity, l10n.qty(p.unit, draft.qty)),
-          for (final line in draftOptionLines(l10n, p, draft)) row(IconsaxPlusLinear.setting_4, l10n.optionsLine, line),
-          if (draft.date case final d?) row(IconsaxPlusLinear.calendar_1, l10n.deliveryDate, formatDay(l10n, d)),
+          if (draft case final d?) ...[
+            for (final line in draftOptionLines(l10n, state.product(d.productId), d))
+              row(IconsaxPlusLinear.setting_4, l10n.optionsLine, line),
+            if (d.date case final day?) row(IconsaxPlusLinear.calendar_1, l10n.deliveryDate, formatDay(l10n, day)),
+          ],
           row(IconsaxPlusLinear.location, l10n.chooseAddress, isolate('${address.label} · ${address.street}, ${address.commune}')),
           const SizedBox(height: KafzaSpacing.sm),
           PriceBreakdown(
-            itemsLabel: itemsLabel(context, p, draft.type, draft.qty),
+            itemsLabel: items.length == 1
+                ? itemsLabel(context, state.product(items.single.productId), items.single.type, items.single.qty)
+                : l10n.itemsTotal,
             items: amounts.items,
             options: amounts.options,
-            deliveryFee: fee,
-            freeDelivery: p.freeDelivery,
+            deliveryFee: amounts.fee,
+            freeDelivery: amounts.free,
           ),
           const SizedBox(height: KafzaSpacing.xl),
           BalanceCard(
@@ -173,13 +200,82 @@ class SummaryScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: KafzaSpacing.xs,
               children: [
-                KafzaButton(l10n.placeOrder, onPressed: missing > 0 ? null : place),
+                KafzaButton(l10n.placeOrder, onPressed: missing > 0 || blocked ? null : place),
                 TextButton(onPressed: () => context.pop(), child: Text(l10n.cancel)),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+/// One product of the summary: picture, title, unit price, line total, and why it can't be
+/// ordered any more. Basket lines also get a stepper and Remove.
+class _DraftLine extends ConsumerWidget {
+  const _DraftLine({required this.draft, this.problem, this.onQty, this.onRemove});
+
+  final OrderDraft draft;
+  final String? problem;
+  final ValueChanged<num>? onQty;
+  final VoidCallback? onRemove;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    final scheme = Theme.of(context).colorScheme;
+    final p = ref.watch(orderEngineProvider.select((s) => s.product(draft.productId)));
+    final a = draftAmounts(p, draft);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      spacing: KafzaSpacing.xs,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: KafzaSpacing.md,
+          children: [
+            SizedBox.square(dimension: 64, child: InitialImage(p.title, id: p.id)),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 2,
+                children: [
+                  Text(isolate(p.title), style: text.titleMedium),
+                  Text(
+                    itemsLabel(context, p, draft.type, draft.qty),
+                    style: text.bodySmall!.copyWith(color: scheme.onSurfaceVariant),
+                  ),
+                  if (problem != null) Text(problem!, style: text.bodySmall!.copyWith(color: scheme.error)),
+                ],
+              ),
+            ),
+            Text(
+              formatPrice(context, a.items + a.options),
+              style: text.labelLarge!.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
+            ),
+          ],
+        ),
+        if (onQty != null)
+          Row(
+            children: [
+              QuantityStepper(
+                value: draft.qty,
+                max: p.readyMade?.available ?? 0,
+                label: l10n.qty(p.unit, draft.qty),
+                onChanged: onQty!,
+              ),
+              const Spacer(),
+              IconButton(
+                icon: const Icon(IconsaxPlusLinear.trash),
+                tooltip: l10n.removeFromBasket,
+                color: scheme.error,
+                onPressed: onRemove,
+              ),
+            ],
+          ),
+      ],
     );
   }
 }
@@ -207,7 +303,7 @@ class _WaitingCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: KafzaSpacing.xs,
         children: [
-          Text(isolate(order.productTitle), style: text.labelLarge),
+          Text(AppLocalizations.of(context).orderTitle(order), style: text.labelLarge),
           Text('${isolate(store.name)} · ${formatPrice(context, order.total)}', style: text.bodySmall),
           CountdownChip(deadline: order.deadline, window: acceptanceWindow(order.type), now: now),
         ],

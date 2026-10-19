@@ -88,32 +88,65 @@ class OrderEngine extends Notifier<AppState> {
 
   // ---------------------------------------------------------------- client
 
-  /// Checks everything and the balance, reserves stock, debits nothing (PAY-02).
+  /// Checks everything and the balance, reserves stock, debits nothing (PAY-02). Several
+  /// [items] only for ready-made products of one store; made to order is one item.
   Future<Order> placeOrder({
     required String clientId,
-    required String productId,
-    required OrderType type,
-    required num qty,
     required String addressId,
-    Map<String, List<String>> picks = const {},
-    DateTime? deliveryDate,
+    required List<OrderDraft> items,
   }) async {
     await ref.read(fakeDelayProvider)();
     // Everything below is synchronous, so nothing can change between the checks and the write.
     final s = state;
     final now = _now;
-    final p = s.product(productId);
-    final store = s.store(p.storeId);
+    if (items.isEmpty) throw const OrderException(OrderError.notAllowed);
+    final type = items.first.type;
+    final products = [for (final d in items) s.product(d.productId)];
+    final store = s.store(products.first.storeId);
     final client = s.client(clientId);
-    if (p.status != ProductStatus.live || !s.takingOrders(store, now)) {
+    if (items.any((d) => d.type != type) ||
+        (type == OrderType.madeToOrder && items.length > 1) ||
+        products.any((p) => p.storeId != store.id) ||
+        products.map((p) => p.id).toSet().length < products.length) {
+      throw const OrderException(OrderError.notAllowed);
+    }
+    if (products.any((p) => p.status != ProductStatus.live) || !s.takingOrders(store, now)) {
       throw const OrderException(OrderError.unavailable);
     }
     if (s.waitingOrder(clientId) != null) {
       throw const OrderException(OrderError.waitingOrder);
     }
 
+    final lines = [for (final (i, d) in items.indexed) _line(products[i], d, now)];
+    final date = items.first.date;
+    final order = Order(
+      id: 'KF-${s.nextOrderNo}',
+      clientId: clientId,
+      storeId: store.id,
+      type: type,
+      lines: lines,
+      deliveryDate: type == OrderType.madeToOrder ? _day(date!) : null,
+      address: client.addresses.firstWhere((a) => a.id == addressId),
+      deliveryFee: deliveryFee(store.distanceKm),
+      freeDelivery: products.every((p) => p.freeDelivery),
+      status: OrderStatus.placed,
+      money: Money.inWallet,
+      deadline: now.add(acceptanceWindow(type)),
+      history: [OrderEvent(OrderStatus.placed, now)],
+    );
+    if (client.balance < order.total) throw const OrderException(OrderError.lowBalance);
+
+    state = s.copyWith(orders: [order, ...s.orders], nextOrderNo: s.nextOrderNo + 1);
+    _reserve(order, 1);
+    _notify(AppSide.store, order.storeId, order: order);
+    return order;
+  }
+
+  /// One draft checked against its product: quantity, stock, options, date.
+  OrderLine _line(Product p, OrderDraft d, DateTime now) {
+    final qty = d.qty;
     final options = <OrderOption>[];
-    if (type == OrderType.readyMade) {
+    if (d.type == OrderType.readyMade) {
       final rm = p.readyMade ?? (throw const OrderException(OrderError.unavailable));
       if (qty < 1 || qty != qty.round()) throw const OrderException(OrderError.invalidQty);
       if (qty > rm.available) throw const OrderException(OrderError.outOfStock);
@@ -124,7 +157,7 @@ class OrderEngine extends Notifier<AppState> {
         throw const OrderException(OrderError.invalidQty);
       }
       for (final g in m.optionGroups) {
-        final picked = picks[g.id] ?? const [];
+        final picked = d.picks[g.id] ?? const [];
         if (g.type == OptionType.text) {
           final text = picked.isEmpty ? '' : picked.single.trim();
           if (text.isEmpty) {
@@ -144,43 +177,24 @@ class OrderEngine extends Notifier<AppState> {
           options.add(OrderOption(g.name, c.name, (c.perUnit ? c.price * qty : c.price).round()));
         }
       }
-      if (deliveryDate == null || !isValidDeliveryDay(m, deliveryDate, now)) {
+      if (d.date == null || !isValidDeliveryDay(m, d.date!, now)) {
         throw const OrderException(OrderError.invalidDate);
       }
     }
-
-    final order = Order(
-      id: 'KF-${s.nextOrderNo}',
-      clientId: clientId,
-      storeId: store.id,
+    return OrderLine(
       productId: p.id,
-      productTitle: p.title,
+      title: p.title,
       unit: p.unit,
-      type: type,
       qty: qty,
       options: options,
-      deliveryDate: type == OrderType.madeToOrder ? _day(deliveryDate!) : null,
-      address: client.addresses.firstWhere((a) => a.id == addressId),
-      itemTotal: itemTotalOf(p, type, qty, picks),
-      deliveryFee: deliveryFee(store.distanceKm),
-      freeDelivery: p.freeDelivery,
-      status: OrderStatus.placed,
-      money: Money.inWallet,
-      deadline: now.add(acceptanceWindow(type)),
-      history: [OrderEvent(OrderStatus.placed, now)],
+      total: itemTotalOf(p, d.type, qty, d.picks),
     );
-    if (client.balance < order.total) throw const OrderException(OrderError.lowBalance);
-
-    state = s.copyWith(orders: [order, ...s.orders], nextOrderNo: s.nextOrderNo + 1);
-    _reserve(order, order.qty);
-    _notify(AppSide.store, order.storeId, order: order);
-    return order;
   }
 
   /// Placed only (CLT-26).
   void cancelByClient(String orderId) {
     final o = _require(orderId, {OrderStatus.placed});
-    _reserve(o, -o.qty);
+    _reserve(o, -1);
     _move(o, OrderStatus.cancelledByClient, store: true);
   }
 
@@ -204,8 +218,8 @@ class OrderEngine extends Notifier<AppState> {
     final review = Review(
       orderId: o.id,
       storeId: o.storeId,
-      productId: o.productId,
-      service: state.product(o.productId).category.service,
+      productIds: [for (final l in o.lines) l.productId],
+      service: state.product(o.lines.first.productId).category.service,
       stars: stars,
       comment: comment.trim(),
       time: _now,
@@ -227,7 +241,7 @@ class OrderEngine extends Notifier<AppState> {
   void decline(String orderId, String reason) {
     final o = _require(orderId, {OrderStatus.placed});
     if (contactCheck(reason) != null) throw const OrderException(OrderError.contactDetails);
-    _reserve(o, -o.qty);
+    _reserve(o, -1);
     _move(o, OrderStatus.declined, note: reason, client: true);
   }
 
@@ -243,16 +257,19 @@ class OrderEngine extends Notifier<AppState> {
     }
     final client = state.client(o.clientId);
     if (client.balance < o.total) {
-      _reserve(o, -o.qty);
+      _reserve(o, -1);
       _move(o, OrderStatus.paymentFailed, client: true, store: true);
       return state.order(orderId);
     }
     state = state.copyWith(clients: _replace(state.clients, (c) => c.id == client.id, (c) => c.copyWith(balance: c.balance - o.total)));
     if (o.type == OrderType.readyMade) {
-      _updateReadyMade(o.productId, (rm) => rm.copyWith(stock: rm.stock - o.qty.toInt(), reserved: rm.reserved - o.qty.toInt()));
-      final rm = state.product(o.productId).readyMade!;
-      if (rm.available <= rm.lowStockAlert) {
-        _notify(AppSide.store, o.storeId, kind: NoticeKind.lowStock, productId: o.productId);
+      for (final l in o.lines) {
+        final q = l.qty.toInt();
+        _updateReadyMade(l.productId, (rm) => rm.copyWith(stock: rm.stock - q, reserved: rm.reserved - q));
+        final rm = state.product(l.productId).readyMade!;
+        if (rm.available <= rm.lowStockAlert) {
+          _notify(AppSide.store, o.storeId, kind: NoticeKind.lowStock, productId: l.productId);
+        }
       }
     }
     _move(o, OrderStatus.accepted, money: Money.held, client: true);
@@ -460,7 +477,9 @@ class OrderEngine extends Notifier<AppState> {
       _pay(o);
       _move(o, OrderStatus.deliveryFailed, money: Money.paid, client: true, store: true);
     } else {
-      _updateReadyMade(o.productId, (rm) => rm.copyWith(stock: rm.stock + o.qty.toInt()));
+      for (final l in o.lines) {
+        _updateReadyMade(l.productId, (rm) => rm.copyWith(stock: rm.stock + l.qty.toInt()));
+      }
       _refund(o, max(0, o.total - o.deliveryFee));
       _move(o, OrderStatus.deliveryFailed, money: Money.refunded, client: true, store: true);
     }
@@ -502,7 +521,7 @@ class OrderEngine extends Notifier<AppState> {
   }
 
   void _expire(Order o) {
-    _reserve(o, -o.qty);
+    _reserve(o, -1);
     _move(o, OrderStatus.expired, client: true, store: true);
   }
 
@@ -527,15 +546,17 @@ class OrderEngine extends Notifier<AppState> {
       time: _now,
       orderId: order?.id,
       status: kind == NoticeKind.order ? order?.status : null,
-      productId: productId ?? order?.productId,
+      productId: productId,
     );
     state = state.copyWith(notifications: [n, ...state.notifications]);
   }
 
-  /// Positive [qty] reserves, negative releases. Made-to-order orders hold no stock.
-  void _reserve(Order o, num qty) {
+  /// [sign] 1 reserves every line's quantity, -1 releases it. Made-to-order orders hold no stock.
+  void _reserve(Order o, int sign) {
     if (o.type != OrderType.readyMade) return;
-    _updateReadyMade(o.productId, (rm) => rm.copyWith(reserved: rm.reserved + qty.toInt()));
+    for (final l in o.lines) {
+      _updateReadyMade(l.productId, (rm) => rm.copyWith(reserved: rm.reserved + sign * l.qty.toInt()));
+    }
   }
 
   void _refund(Order o, int amount) => state = state.copyWith(
@@ -543,8 +564,10 @@ class OrderEngine extends Notifier<AppState> {
 
   void _pay(Order o) {
     _updateStore(o.storeId, (s) => s.copyWith(balance: s.balance + o.earnings));
-    state = state.copyWith(
-        products: _replace(state.products, (p) => p.id == o.productId, (p) => p.copyWith(sold: p.sold + o.qty.ceil())));
+    for (final l in o.lines) {
+      state = state.copyWith(
+          products: _replace(state.products, (p) => p.id == l.productId, (p) => p.copyWith(sold: p.sold + l.qty.ceil())));
+    }
   }
 
   void _updateReadyMade(String productId, ReadyMade Function(ReadyMade) f) => state = state.copyWith(

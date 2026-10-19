@@ -7,6 +7,7 @@ import '../../../core/data/seed.dart';
 import '../../../core/format/price.dart';
 import '../../../core/format/time.dart';
 import '../../../core/l10n/app_localizations.dart';
+import '../../../core/l10n/labels.dart';
 import '../../../core/models/order.dart';
 import '../../../core/order_engine/order_engine.dart';
 import '../../../core/theme/kafza_theme.dart';
@@ -102,13 +103,16 @@ class _OrderCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: KafzaSpacing.md,
                 children: [
-                  SizedBox.square(dimension: 48, child: InitialImage(order.productTitle, id: order.productId)),
+                  SizedBox.square(
+                    dimension: 48,
+                    child: InitialImage(order.lines.first.title, id: order.lines.first.productId),
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 2,
                       children: [
-                        Text(isolate(order.productTitle), style: text.bodyLarge),
+                        Text(l10n.orderTitle(order), style: text.bodyLarge),
                         Text(
                           '${isolate(store.name)} · ${formatDateTime(l10n, order.placedAt)}',
                           style: text.bodySmall!.copyWith(color: secondary),

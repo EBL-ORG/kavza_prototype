@@ -116,7 +116,7 @@ class _DemoPanelState extends ConsumerState<_DemoPanel> {
             if (courierOrders.isEmpty) Text(l10n.demoCourierEmpty, style: secondary),
             for (final o in courierOrders)
               row(
-                '${o.id} · ${o.productTitle}',
+                '${o.id} · ${l10n.orderTitle(o)}',
                 '${state.store(o.storeId).name} · ${l10n.status(o.status)}',
                 o.status == OrderStatus.ready
                     ? [OutlinedButton(onPressed: () => engine.pickedUp(o.id), child: Text(l10n.statusPickedUp))]

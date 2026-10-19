@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/data/app_state.dart';
 import '../../core/models/catalog.dart';
+import '../../core/models/order.dart';
 import '../../core/models/product.dart';
 import '../../core/models/store.dart';
+import '../../core/order_engine/order_engine.dart';
 
 /// A plain value the client screens share (selected address, filters, recent searches).
 class Setting<T> extends Notifier<T> {
@@ -26,6 +28,37 @@ class Favourites extends Notifier<Set<String>> {
   Set<String> build() => const {};
 
   void toggle(String id) => state = state.contains(id) ? ({...state}..remove(id)) : {...state, id};
+}
+
+typedef BasketState = ({String storeId, List<OrderDraft> items});
+
+/// Ready-made drafts from one store, one per product; null when empty. Auto-dispose: it lives
+/// only while a screen of that store's flow watches it (store page, its product pages, the
+/// order sheet, the summary), so it can never follow the client into another store.
+final basketProvider = NotifierProvider.autoDispose<Basket, BasketState?>(Basket.new);
+
+class Basket extends Notifier<BasketState?> {
+  @override
+  BasketState? build() => null;
+
+  /// Adds [d], or replaces the line of the same product. Refuses another store's product.
+  void put(String storeId, OrderDraft d) {
+    final s = state;
+    if (d.type != OrderType.readyMade || (s != null && s.storeId != storeId)) {
+      throw const OrderException(OrderError.notAllowed);
+    }
+    final items = [...?s?.items];
+    final i = items.indexWhere((x) => x.productId == d.productId);
+    i < 0 ? items.add(d) : items[i] = d;
+    state = (storeId: storeId, items: items);
+  }
+
+  void remove(String productId) {
+    final items = [...?state?.items]..removeWhere((x) => x.productId == productId);
+    state = items.isEmpty ? null : (storeId: state!.storeId, items: items);
+  }
+
+  void clear() => state = null;
 }
 
 /// The delivery address picked on the home screen.

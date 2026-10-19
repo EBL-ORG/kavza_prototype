@@ -6,7 +6,13 @@ import '../theme/kafza_theme.dart';
 /// Item picture: the bundled photo `assets/images/<id>_<page>.jpg` for seed items, otherwise the item's initial in purple on a
 /// lavender tile (Yassir's tile look), so a product added in the demo never shows a broken image.
 class InitialImage extends StatelessWidget {
-  const InitialImage(this.name, {super.key, this.radius = KafzaRadius.input, this.id, this.page = 0});
+  const InitialImage(
+    this.name, {
+    super.key,
+    this.radius = KafzaRadius.input,
+    this.id,
+    this.page = 0,
+  });
 
   final String name;
   final double radius;
@@ -17,7 +23,9 @@ class InitialImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initial = name.trim().isEmpty ? '' : name.trim().characters.first.toUpperCase();
+    final initial = name.trim().isEmpty
+        ? ''
+        : name.trim().characters.first.toUpperCase();
     final tile = ColoredBox(
       color: Theme.of(context).colorScheme.primaryContainer,
       // The initial grows with the box (45% of its height, up to 96 px), like an object on a tile.
@@ -30,7 +38,9 @@ class InitialImage extends StatelessWidget {
               child: ExcludeSemantics(
                 child: Text(
                   initial,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Theme.of(context).colorScheme.primary),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
             ),
@@ -62,15 +72,21 @@ class StoreAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => switch (store.picture) {
-        StorePicture.photo => InitialImage(store.name, id: store.id, radius: 999),
-        StorePicture.none => InitialImage(store.name, radius: 999),
-        StorePicture.logo => DecoratedBox(
-            decoration: BoxDecoration(color: Theme.of(context).colorScheme.primaryContainer, shape: BoxShape.circle),
-            child: FractionallySizedBox(
-              widthFactor: 0.7,
-              heightFactor: 0.7,
-              child: Image.asset('assets/emoji/${store.activity?.name ?? 'kafza'}.png', excludeFromSemantics: true),
-            ),
-          ),
-      };
+    StorePicture.photo => InitialImage(store.name, id: store.id, radius: 999),
+    StorePicture.none => InitialImage(store.name, radius: 999),
+    StorePicture.logo => DecoratedBox(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primaryContainer,
+        shape: BoxShape.circle,
+      ),
+      child: FractionallySizedBox(
+        widthFactor: 0.7,
+        heightFactor: 0.7,
+        child: Image.asset(
+          'assets/emoji/${store.activity?.name ?? 'kafza'}.png',
+          excludeFromSemantics: true,
+        ),
+      ),
+    ),
+  };
 }

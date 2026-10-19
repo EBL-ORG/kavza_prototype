@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../core/data/clock.dart';
@@ -8,16 +9,35 @@ import '../../../core/format/price.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/l10n/labels.dart';
 import '../../../core/models/catalog.dart';
+import '../../../core/models/order.dart';
+import '../../../core/models/product.dart';
 import '../../../core/order_engine/order_engine.dart';
 import '../../../core/theme/kafza_theme.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/info_banner.dart';
 import '../../../core/widgets/initial_image.dart';
 import '../../../core/widgets/kafza_badge.dart';
+import '../../../core/widgets/kafza_sheet.dart';
 import '../../../core/widgets/rating_stars.dart';
+import '../client_providers.dart';
 import '../client_widgets.dart';
+import '../ordering/order_sheet.dart';
+
+/// Leaving the store empties its basket: true when the client confirms.
+Future<bool> confirmLeaveStore(BuildContext context) {
+  final l10n = AppLocalizations.of(context);
+  return showKafzaDialog(
+    context,
+    title: l10n.leaveStoreTitle,
+    body: l10n.leaveStoreBody,
+    cancel: l10n.stayInStore,
+    confirm: l10n.leaveStoreConfirm,
+    destructive: true,
+  );
+}
 
 /// C4: store page. Commune and approximate distance only, never an address (CLT-07).
+/// In-stock products have a quick add into the store basket, shown in a bar at the bottom.
 class StorePage extends ConsumerWidget {
   const StorePage({super.key, required this.id});
 
@@ -39,6 +59,43 @@ class StorePage extends ConsumerWidget {
       for (final s in Service.values)
         if (state.rating(storeId: id, service: s) case final r?) (s, r),
     ];
+    final basket = ref.watch(basketProvider);
+    final items = basket?.storeId == id ? basket!.items : const <OrderDraft>[];
+
+    Future<void> quickAdd(String productId) async {
+      final r = await showOrderSheet(context, productId, OrderType.readyMade);
+      if (r == null || !context.mounted) return;
+      try {
+        ref.read(basketProvider.notifier).put(id, r.draft);
+      } on OrderException catch (e) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(l10n.orderError(e.error))));
+        return;
+      }
+      if (r.buyNow) context.push('/order');
+    }
+
+    // Quick add for what can be ordered now; the badge shows what's already in the basket.
+    Widget? addButton(Product p) {
+      if (!p.canOrderNow) return null;
+      final inBasket = items.where((d) => d.productId == p.id).firstOrNull;
+      final scheme = Theme.of(context).colorScheme;
+      return Padding(
+        padding: const EdgeInsetsDirectional.only(top: KafzaSpacing.md),
+        child: Badge(
+          isLabelVisible: inBasket != null,
+          label: Text(formatNumber(context, inBasket?.qty ?? 0)),
+          backgroundColor: scheme.primary,
+          textColor: scheme.onPrimary,
+          child: IconButton.filledTonal(
+            icon: const Icon(IconsaxPlusLinear.add),
+            tooltip: inBasket == null ? l10n.addToBasket : l10n.inBasket(l10n.qty(p.unit, inBasket.qty)),
+            onPressed: () => quickAdd(p.id),
+          ),
+        ),
+      );
+    }
 
     final header = Padding(
       padding: const EdgeInsets.all(KafzaSpacing.lg),
@@ -94,9 +151,16 @@ class StorePage extends ConsumerWidget {
       ),
     );
 
-    return DefaultTabController(
+    final page = DefaultTabController(
       length: 2,
       child: Scaffold(
+        bottomNavigationBar: items.isEmpty
+            ? null
+            : _BasketBar(
+                count: items.length,
+                total: draftsAmounts(state, items).total,
+                onTap: () => context.push('/order'),
+              ),
         appBar: AppBar(
           actions: [
             FavouriteButton(id),
@@ -126,7 +190,7 @@ class StorePage extends ConsumerWidget {
                 ListView.separated(
                   itemCount: products.length,
                   separatorBuilder: (_, _) => const Divider(indent: KafzaSpacing.lg, endIndent: KafzaSpacing.lg),
-                  itemBuilder: (_, i) => ProductTile(products[i], showStore: false),
+                  itemBuilder: (_, i) => ProductTile(products[i], inStore: true, trailing: addButton(products[i])),
                 ),
               if (reviews.isEmpty)
                 EmptyState(icon: IconsaxPlusLinear.message_edit, title: l10n.noReviews, body: l10n.noReviewsHint)
@@ -137,7 +201,7 @@ class StorePage extends ConsumerWidget {
                   separatorBuilder: (_, _) => const Divider(height: KafzaSpacing.xl),
                   itemBuilder: (context, i) {
                     final r = reviews[i];
-                    final product = state.products.where((p) => p.id == r.productId).firstOrNull;
+                    final titles = [for (final p in state.products) if (r.productIds.contains(p.id)) isolate(p.title)];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: KafzaSpacing.xs,
@@ -152,13 +216,57 @@ class StorePage extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        if (product != null) Text(isolate(product.title), style: text.bodySmall!.copyWith(color: secondary)),
+                        if (titles.isNotEmpty)
+                          Text(titles.join(l10n.listSeparator), style: text.bodySmall!.copyWith(color: secondary)),
                         if (r.comment.isNotEmpty) Text(isolate(r.comment), style: text.bodyMedium),
                       ],
                     );
                   },
                 ),
             ],
+          ),
+        ),
+      ),
+    );
+
+    // Leaving with a full basket asks first; the basket is emptied only if the client confirms.
+    return PopScope(
+      canPop: items.isEmpty,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop || !await confirmLeaveStore(context) || !context.mounted) return;
+        ref.read(basketProvider.notifier).clear();
+        context.pop();
+      },
+      child: page,
+    );
+  }
+}
+
+/// The store basket in one tap: item count, View basket, the total to pay (delivery included).
+class _BasketBar extends StatelessWidget {
+  const _BasketBar({required this.count, required this.total, required this.onTap});
+
+  final int count, total;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return DecoratedBox(
+      decoration: BoxDecoration(border: Border(top: BorderSide(color: Theme.of(context).colorScheme.outlineVariant))),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(KafzaSpacing.lg),
+          child: FilledButton(
+            onPressed: onTap,
+            child: Row(
+              spacing: KafzaSpacing.md,
+              children: [
+                Text(l10n.basketItems(count)),
+                Expanded(child: Text(l10n.viewBasket, textAlign: TextAlign.center)),
+                Text(formatPrice(context, total), style: const TextStyle(fontFeatures: [FontFeature.tabularFigures()])),
+              ],
+            ),
           ),
         ),
       ),

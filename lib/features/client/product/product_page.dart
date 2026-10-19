@@ -5,25 +5,32 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/data/clock.dart';
 import '../../../core/l10n/app_localizations.dart';
+import '../../../core/l10n/labels.dart';
 import '../../../core/models/order.dart';
 import '../../../core/models/product.dart';
 import '../../../core/order_engine/order_engine.dart';
 import '../../../core/theme/kafza_theme.dart';
 import '../../../core/widgets/product_detail_view.dart';
+import '../client_providers.dart';
 import '../client_widgets.dart';
 import '../ordering/order_sheet.dart';
 
 /// C5: product page (CLT-09…12).
 class ProductPage extends ConsumerWidget {
-  const ProductPage({super.key, required this.id});
+  const ProductPage({super.key, required this.id, this.fromStore = false});
 
   final String id;
+
+  /// Opened from its store's page, which sits right under it.
+  final bool fromStore;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final scheme = Theme.of(context).colorScheme;
     final state = ref.watch(orderEngineProvider);
+    // Watching keeps the store basket alive while this page is open.
+    ref.watch(basketProvider);
     final p = state.product(id);
     final store = state.store(p.storeId);
     final storeOpen = state.takingOrders(store, ref.read(clockProvider));
@@ -31,10 +38,25 @@ class ProductPage extends ConsumerWidget {
     final canNow = open && p.canOrderNow;
     final canMade = open && p.madeToOrder != null;
 
-    // Order sheet (C6) → summary (C7).
+    void toStore() => fromStore ? context.pop() : context.push('/store/${store.id}');
+
+    // Order sheet (C6) → summary (C7). Ready-made goes through the store basket.
     Future<void> order(OrderType type) async {
-      final draft = await showOrderSheet(context, id, type);
-      if (draft != null && context.mounted) context.push('/order', extra: draft);
+      final r = await showOrderSheet(context, id, type);
+      if (r == null || !context.mounted) return;
+      if (type == OrderType.madeToOrder) {
+        context.push('/order', extra: r.draft);
+        return;
+      }
+      try {
+        ref.read(basketProvider.notifier).put(store.id, r.draft);
+      } on OrderException catch (e) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(l10n.orderError(e.error))));
+        return;
+      }
+      r.buyNow ? context.push('/order') : toStore();
     }
 
     return Scaffold(
@@ -55,7 +77,7 @@ class ProductPage extends ConsumerWidget {
             store: store,
             rating: state.rating(productId: id),
             storeRating: state.rating(storeId: store.id),
-            onStoreTap: () => context.push('/store/${store.id}'),
+            onStoreTap: toStore,
           ),
         ],
       ),

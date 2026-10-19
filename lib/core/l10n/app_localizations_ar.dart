@@ -2135,4 +2135,92 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get storeSupportLine => 'سؤال آخر؟ فريق دعم Kavza يرد خلال 24 ساعة.';
+
+  @override
+  String orderTitleMore(String title, int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$title و$n منتج آخر',
+      few: '$title و$n منتجات أخرى',
+      two: '$title ومنتجان آخران',
+      one: '$title ومنتج آخر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String buyNowTotal(String total) {
+    return 'اشترِ الآن · $total';
+  }
+
+  @override
+  String get continueBrowsing => 'متابعة التسوق';
+
+  @override
+  String buyNowWithBasket(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'يشمل الشراء أيضًا $n منتج آخر في سلتك.',
+      few: 'يشمل الشراء أيضًا $n منتجات أخرى في سلتك.',
+      two: 'يشمل الشراء أيضًا المنتجين الآخرين في سلتك.',
+      one: 'يشمل الشراء أيضًا المنتج الآخر في سلتك.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get addToBasket => 'أضف إلى السلة';
+
+  @override
+  String inBasket(String qty) {
+    return 'في السلة: $qty';
+  }
+
+  @override
+  String get basketMadeToOrder => 'يُطلب وحده من صفحته، ولا يُضاف إلى السلة.';
+
+  @override
+  String get basketOutOfStock => 'نفد المخزون، لا يمكن إضافته إلى السلة.';
+
+  @override
+  String get viewBasket => 'عرض السلة';
+
+  @override
+  String basketItems(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n منتج',
+      few: '$n منتجات',
+      two: 'منتجان',
+      one: 'منتج واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leaveStoreTitle => 'مغادرة المتجر؟';
+
+  @override
+  String get leaveStoreBody =>
+      'ستُفرَغ سلتك وتُحذف المنتجات التي اخترتها. تحتوي السلة على منتجات من متجر واحد فقط.';
+
+  @override
+  String get leaveStoreConfirm => 'المغادرة وإفراغ السلة';
+
+  @override
+  String get stayInStore => 'البقاء';
+
+  @override
+  String get removeFromBasket => 'إزالة من السلة';
+
+  @override
+  String get lineUnavailable => 'لم يعد متوفرًا. أزِله للمتابعة.';
+
+  @override
+  String lineOnlyLeft(String qty) {
+    return 'المتوفر $qty فقط. خفّض الكمية.';
+  }
 }

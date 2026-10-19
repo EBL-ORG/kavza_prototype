@@ -67,7 +67,7 @@ class EarningsScreen extends ConsumerWidget {
               tilePadding: EdgeInsets.zero,
               childrenPadding: const EdgeInsetsDirectional.only(bottom: KafzaSpacing.lg),
               shape: const Border(),
-              title: Text(isolate(o.productTitle), style: text.bodyLarge),
+              title: Text(l10n.orderTitle(o), style: text.bodyLarge),
               subtitle: Text('${ltr(o.id)} · ${formatDateTime(l10n, o.history.last.time)}', style: secondary),
               trailing: Text(formatPrice(context, o.earnings), style: text.labelLarge!.copyWith(fontFeatures: tabular)),
               children: [EarningsBreakdown(o)],

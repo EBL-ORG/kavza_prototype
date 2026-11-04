@@ -189,6 +189,8 @@ jobs:
 
       - name: Start serve-sim
         id: serve_sim
+        env:
+          SERVE_SIM_AUTH_TOKEN: ${{ inputs.gate_token }}  
         timeout-minutes: 10
         run: |
           set -euo pipefail

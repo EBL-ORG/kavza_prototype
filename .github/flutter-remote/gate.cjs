@@ -300,6 +300,9 @@ const server = http.createServer((req, res) => {
 
   // Build clean upstream headers — strip hop-by-hop headers that must not be forwarded
   const upstreamHeaders = { ...req.headers };
+  if (!agent) {
+  upstreamHeaders.authorization = `Bearer ${TOKEN}`;
+}
   upstreamHeaders['x-forwarded-proto'] = 'https';
   upstreamHeaders['x-forwarded-host'] = req.headers.host;
   delete upstreamHeaders['connection'];
@@ -405,6 +408,7 @@ server.on('upgrade', (req, socket, head) => {
     const { connection: _c, 'proxy-connection': _pc, te: _te, ...forwardHeaders } = req.headers;
     const headersStr = Object.entries({
       ...forwardHeaders,
+      ...(!isAgent && !isSignal ? { authorization: `Bearer ${TOKEN}` } : {}),
       // Hop-by-hop "Connection: Upgrade" must be re-sent upstream, otherwise
       // Node's HTTP parser on :3201 / serve-sim never sees a WebSocket upgrade
       // and answers 404 (no /signal, no /ws input).

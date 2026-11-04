@@ -30,7 +30,7 @@
 const http = require('node:http');
 const { spawn } = require('node:child_process');
 const { createJpegSplitter } = require('./peer/mjpeg.cjs');
-const { videoConfigFromEnv } = require('./runtime.cjs');
+const { videoConfigFromEnv, config } = require('./runtime.cjs');
 
 const BOUNDARY = 'frame';
 const KEEPALIVE_MS = 1000;
@@ -304,8 +304,15 @@ class RelaySource {
       }
       this.waiting.clear();
     };
-    const req = http.get({ host, port, path: this.upstreamPath, headers: { 'Accept-Encoding': 'identity' } }, (up) => {
-      if (up.statusCode !== 200) {
+const req = http.get({
+  host,
+  port,
+  path: this.upstreamPath,
+  headers: {
+    'Accept-Encoding': 'identity',
+    Authorization: `Bearer ${config.gateToken}`,
+  },
+}, (up) => {      if (up.statusCode !== 200) {
         const chunks = [];
         up.on('data', (c) => chunks.push(c));
         up.on('end', () => {

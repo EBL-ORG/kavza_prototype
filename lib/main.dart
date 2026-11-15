@@ -26,7 +26,19 @@ Future<void> main() async {
   try {
     await GoogleFonts.pendingFonts().timeout(const Duration(seconds: 3));
   } catch (_) {}
-  runApp(const ProviderScope(child: KafzaPrototype()));
+  // runApp(const ProviderScope(child: KafzaPrototype()));
+  runApp(
+    const MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Text(
+            String.fromEnvironment('A'),
+            style: TextStyle(fontSize: 40),
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 /// Launcher app. Both Kafza apps live under the same ProviderScope, so they share state.
